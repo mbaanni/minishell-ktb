@@ -6,20 +6,23 @@
 /*   By: mbaanni <mbaanni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 09:37:04 by mtaib             #+#    #+#             */
-/*   Updated: 2023/06/11 09:21:38 by mtaib            ###   ########.fr       */
+/*   Updated: 2023/06/11 22:37:35 by mtaib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	*get_arg(char	*str)
+/*char	*get_arg(char	*str)
 {
 	int		i;
 	char	*arg;
 
 	i = 0;
-	while (str[i] && (str[i] == '"' || str[i] == '\''))
+	arg = NULL;
+	while (str[i] && str[i] != '"' && str[i] != '\'')
 			i++;
+	if (i)	
+		arg = ft_substr(str, 0 , i);
 	arg = my_alloc(i + 1);
 	i = 0;
 	while (str[i] && str[i] != '"' && str[i] != '\'')
@@ -44,10 +47,12 @@ char	*parse_string(char	*str)
 	if (!str)
 		return (0);
 	if (str[i] != '"' && str[i] != '\'')
-			s2 = get_arg(str);
+	{
+		s2 = get_arg(str);
+	}
 	while (str[i] && str[i] != '"' && str[i] != '\'')
 		   i++;	
-	while (str[i] && (str[i] == '"' || str[i] == '\''))
+	while (str[i])
 	{
 		c = str[i++];
 		while (str[i] && str[i] != c)
@@ -59,10 +64,65 @@ char	*parse_string(char	*str)
 		}
 		i++;
 	}
-	if (str[i] && str[i] != '"' && str[i] != '\'')
-		{s2 = get_arg(&str[i]);
+	if (str[i] && (str[i] == '"' || str[i] == '\''))
+		i++;
+	if (!s2 && str[i] && str[i] != '"' && str[i] != '\'')
+	{
+		s2 = get_arg(&str[i]);
 				
-			}
+	}
+	if (!s2)
+	{
+		//printf("ok\n");
+		return (ft_strdup("\0"));
+	}
+	return (s2);
+}*/
+
+char	*get_arg(char	*str)
+{
+	int		i;
+	char	*arg;
+
+	i = 0;
+	while (str[i] && (str[i] != '"' && str[i] != '\''))
+			i++;
+	arg = ft_substr(str, 0, i);
+	/*arg = my_alloc(i + 1);
+	i = 0;
+	while (str[i] && str[i] != '"' && str[i] != '\'')
+	{
+		arg[i] = str[i];
+		i++;
+	}
+	arg[i] = '\0';*/
+	return (arg);
+}
+
+char	*parse_string(char	*str)
+{
+	int		i;
+	char	c;
+	char	s[2];
+	char	*s2;
+
+	s2 = NULL;
+	i = 0;
+	if (str[i] != '"' && str[i] != '\'')
+		s2 = get_arg(str);
+	while (str[i] && str[i] != '"' && str[i] != '\'')
+		   i++;
+	while (str[i])
+	{
+		c = str[i++];
+		while (str[i] && str[i] != c)
+		{
+			s[0] = str[i];
+			s[1] = '\0';
+			s2 = ft_strjoin(s2, s);
+			i++;
+		}
+	}
 	if (!s2)
 		return (ft_strdup("\0"));
 	return (s2);
@@ -253,21 +313,22 @@ t_command	*convert_args(t_cmd *cmds)
 			tmp_cmd = tmp_cmd->next;
 		i++;
 	}
-	// tmp_cmd = commands;
-	// while (tmp_cmd)
-	// {
-	// 	i = -1;
-	// 	while (tmp_cmd->command_args && tmp_cmd->command_args[++i])
-	// 		printf("%s\n",tmp_cmd->command_args[i]);
-	// 	printf("-----REDIRECTIONS-----\n");
-	// 	while (tmp_cmd->command_redirections)
-	// 	{
-	// 		printf("%s is expand %d\n",tmp_cmd->command_redirections->file, tmp_cmd->command_redirections->is_expand);
-	// 		tmp_cmd->command_redirections = (tmp_cmd->command_redirections)->next;
-	// 	}
-	// 	printf("----------\n");
-	// 	tmp_cmd = tmp_cmd->next;
-	// }
+	/*tmp_cmd = commands;
+	while (tmp_cmd)
+	{
+		i = -1;
+		while (tmp_cmd->command_args && tmp_cmd->command_args[++i])
+			printf("%s\n",tmp_cmd->command_args[i]);
+		printf("-----REDIRECTIONS-----\n");
+		while (tmp_cmd->command_redirections)
+		{
+			printf("%s is expand %d\n",tmp_cmd->command_redirections->file, tmp_cmd->command_redirections->is_expand);
+			tmp_cmd->command_redirections = (tmp_cmd->command_redirections)->next;
+		}
+		printf("----------\n");
+		tmp_cmd = tmp_cmd->next;
+	}
+	exit(0);*/
 	general->command_head = commands;
 	return (commands);
 }

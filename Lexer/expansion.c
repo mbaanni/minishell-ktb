@@ -6,7 +6,7 @@
 /*   By: mtaib <mtaib@student.1337.ma>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 15:36:10 by mtaib             #+#    #+#             */
-/*   Updated: 2023/06/11 12:01:00 by mtaib            ###   ########.fr       */
+/*   Updated: 2023/06/11 22:54:55 by mtaib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ t_cmd	*ft_expand(t_cmd *cmds, int nb_cmds)
 	t_lexim	*tmp_next;
 	char	**args;
 	int		j;
+	char	*str;
 
 	i = 0;
 	envs = general->env_head;
@@ -154,22 +155,21 @@ t_cmd	*ft_expand(t_cmd *cmds, int nb_cmds)
 			{
 				/*if (tmp_redir->file && (tmp_redir->file[0] == '"' || check_ambigious(expand_var(tmp_redir->file))))
 				{*/
-				//printf("|||%s|||\n",tmp_redir->file);
+				//printf("|||here =%s|||\n",tmp_redir->file);
+				//printf("--%d---\n",check_ambigious(expand_var(tmp_redir->file)));
 					if (tmp_redir->file
 							&& !check_ambigious(expand_var(tmp_redir->file)))
 					{
 			
-						char	*str;
 					
 						// printf("---%s---\n",tmp_redir->file);
-						
 						// printf("---%s---\n",expand_var(tmp_redir->file));
 						str = expand_var(tmp_redir->file);
 						// if (str)
 						str = parse_string(str);
+					//	printf("--str = %s--\n",str);
 						// printf("---%s---\n",tmp_redir->file);
 						
-						printf("---%s---\n",str);
 						if (str && !str[0] && should_parse(tmp_redir->file))
 								// || (expand_var(tmp_redir->file) && !expand_var(tmp_redir->file)[0])))
 							{
@@ -178,6 +178,7 @@ t_cmd	*ft_expand(t_cmd *cmds, int nb_cmds)
 						else
 							{
 								tmp_redir->is_expand = 2;
+				 				tmp_redir->file = expand_var(tmp_redir->file);
 								break;
 							}
 						
@@ -201,7 +202,14 @@ t_cmd	*ft_expand(t_cmd *cmds, int nb_cmds)
 					}*/
 				/*tmp_redir->file = *///printf("||%s||\n",expand_var(tmp_redir->file));
 				else
-				 	tmp_redir->file = expand_var(tmp_redir->file);
+				{
+					//printf("Ok");
+					if (tmp_redir->file[0] == '$')
+						tmp_redir->file = ft_split(expand_var(tmp_redir->file), ' ')[0];
+					else 
+						tmp_redir->file = expand_var(tmp_redir->file);
+				}
+				 //printf("---%s---\n",tmp_redir->file);
 			}	
 			tmp_redir = tmp_redir->next;
 		}

@@ -6,7 +6,7 @@
 /*   By: mbaanni <mbaanni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 18:26:32 by mbaanni           #+#    #+#             */
-/*   Updated: 2023/06/10 14:58:21 by mtaib            ###   ########.fr       */
+/*   Updated: 2023/06/11 22:55:23 by mtaib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int	redirection_handler(t_command *commands, int fdin, int fdout)
 			general->exit_status = 1;
 			return (1);
 		}
+		//printf("---%s---\n",redir->file);
 		if (access(redir->file, F_OK) && redir->token != HERE_DOC)
 		{
 			ft_fdprintf(2, "minishell: %s: No such file or directory\n", redir->file);

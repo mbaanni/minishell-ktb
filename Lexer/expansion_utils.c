@@ -6,7 +6,7 @@
 /*   By: mtaib <mtaib@student.1337.ma>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 18:18:30 by mtaib             #+#    #+#             */
-/*   Updated: 2023/06/11 11:51:57 by mtaib            ###   ########.fr       */
+/*   Updated: 2023/06/11 22:46:58 by mtaib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char	*expand_var(char *str)
 				|| (str[i] == '$' && i > 0 && str[i-1] && str[i-1] != '\'') 
 				|| (i == 0 && str[i] == '$'))		
 			state = 1;
-		if (state && str[i + 1] && str[i] == '$' && (str[i + 1] == '?' || ft_isalpha(str[i + 1]) || str[i + 1] == '_' || ft_isdigit(str[i + 1])))
+		if (/*state && */str[i + 1] && str[i] == '$' && (str[i + 1] == '?' || ft_isalpha(str[i + 1]) || str[i + 1] == '_' || ft_isdigit(str[i + 1])))
 		{
 			if (str[i + 1] == '?')
 			{
