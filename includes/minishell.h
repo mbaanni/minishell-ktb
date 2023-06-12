@@ -11,6 +11,7 @@
 #include <dirent.h>
 #include <sys/signal.h>
 #include <sys/termios.h>
+#include <termios.h>
 #include "../libft/libft.h"
 #include <readline/history.h>
 #include <readline/readline.h>
@@ -108,7 +109,6 @@ char	*find_in_env(char *str, int len);
 int		lent_identifier(char *str);
 char	*expand_var(char *str);
 t_lexim	*new_lexim(char *str);
-int		should_parse(char	*str);
 /***************************/
 
 char		**get_args(t_list *cmd);
@@ -122,7 +122,7 @@ void	tokenize_elements(t_lexim *lexims);
 void	parse_env(t_lexim *lexims);
 char	*parse_string(char	*str);
 t_cmd	*parse_commands(t_lexim *lexims);
-
+int		should_parse(char	*str);
 //####### General structer #######//
 typedef struct s_general{
 
@@ -132,6 +132,8 @@ typedef struct s_general{
 	int			command_count;
 	char		**ev;
 	int			sig;
+	unsigned int	old_c_lflag;
+	struct termios *_terminal;
 	int			prev[2];
 	int			next[2];
 }	t_general;

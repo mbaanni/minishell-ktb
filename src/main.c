@@ -6,7 +6,7 @@
 /*   By: mbaanni <mbaanni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 14:30:50 by mbaanni           #+#    #+#             */
-/*   Updated: 2023/06/11 20:11:08 by mtaib            ###   ########.fr       */
+/*   Updated: 2023/06/10 12:33:42 by mtaib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,18 @@ char	*ft_trime_side(char *str)
 
 void    handle_signal(int sig)
 {
-
+	if (!general->sig)
+	{
+		general->_terminal->c_lflag &=~ECHOCTL;
+		tcsetattr(0, TCSANOW, general->_terminal);
+	}
 	if (sig == SIGINT)
 	{
 		if (general->sig)
 			return ;
 		write(1, "\n", 1);
 		rl_on_new_line();
-		//rl_replace_line("", 0);
+		rl_replace_line("", 0);
 		rl_redisplay();
 	}
 	else if (sig == SIGQUIT)
@@ -65,9 +69,14 @@ int main(int ac,char **av,char **ev)
 	t_lexim	*lexims;
 	(void) ac;
 	(void) av;
+	struct termios terminal;
 
-	signal_to_take();
+
 	general = my_alloc(sizeof(t_general));
+	tcgetattr(0, &terminal);
+	general->old_c_lflag = terminal.c_lflag;
+	general->_terminal = &terminal;
+	signal_to_take();
 	if(!general)
 		return 0;
 	general->ev = ev;
@@ -96,17 +105,13 @@ int main(int ac,char **av,char **ev)
 				if (lexims && !check_token_syntax(lexims))
 				{
 					find_path();
-					if (!ft_getenv("PATH"))
-					{
-						ft_fdprintf(2, "minishell: No such file or directory\n");
-						general->exit_status = 127;
-					}
-					else
-						executing_phase();
+					executing_phase();
 				}
 			}
 		}
 		general->sig = 0;
+		terminal.c_lflag = general->old_c_lflag;
+		tcsetattr(0, TCSANOW, &terminal);
 	}
 	return (0);
 }	

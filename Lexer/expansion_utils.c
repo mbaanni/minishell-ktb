@@ -68,7 +68,7 @@ char	*expand_var(char *str)
 				|| (str[i] == '$' && i > 0 && str[i-1] && str[i-1] != '\'') 
 				|| (i == 0 && str[i] == '$'))		
 			state = 1;
-		if (/*state && */str[i + 1] && str[i] == '$' && (str[i + 1] == '?' || ft_isalpha(str[i + 1]) || str[i + 1] == '_' || ft_isdigit(str[i + 1])))
+		if (state && str[i + 1] && str[i] == '$' && (str[i + 1] == '?' || ft_isalpha(str[i + 1]) || str[i + 1] == '_' || ft_isdigit(str[i + 1])))
 		{
 			if (str[i + 1] == '?')
 			{
