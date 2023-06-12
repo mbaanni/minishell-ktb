@@ -34,6 +34,8 @@ char	*ft_trime_side(char *str)
 
 void    handle_signal(int sig)
 {
+	general->exit_status = 1;
+	printf("exit == %d\n", general->exit_status);
 	if (!general->sig)
 	{
 		general->_terminal->c_lflag &=~ECHOCTL;
