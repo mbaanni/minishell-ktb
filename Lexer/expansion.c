@@ -151,7 +151,7 @@ t_cmd	*ft_expand(t_cmd *cmds, int nb_cmds)
 		}
 		while (tmp_redir)
 		{
-			if (tmp_redir->is_expand)
+			if (tmp_redir->is_expand && tmp_redir->token != HERE_DOC)
 			{
 				/*if (tmp_redir->file && (tmp_redir->file[0] == '"' || check_ambigious(expand_var(tmp_redir->file))))
 				{*/
