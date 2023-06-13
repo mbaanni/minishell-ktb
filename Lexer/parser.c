@@ -6,7 +6,7 @@
 /*   By: mtaib <mtaib@student.1337.ma>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 16:25:34 by mtaib             #+#    #+#             */
-/*   Updated: 2023/06/10 17:55:24 by mtaib            ###   ########.fr       */
+/*   Updated: 2023/06/13 12:13:06 by mtaib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,8 @@ t_lexim    *parse_redirections(t_lexim *lexims, t_redir **redirs)
             str = ft_strjoin(str, tmp->content);
             if (lexims->token == HERE_DOC && expand_it(str))
 				last_node(*redirs)->is_expand = 1;
-			if (is_expand(str) && lexims->token != HERE_DOC)	
+			if (is_expand(str) && lexims->token != HERE_DOC 
+					&& tmp->token == ENV)	
 				last_node(*redirs)->is_expand = 1;
             tmp->is_redir = 1;
             tmp = tmp->next;
@@ -194,6 +195,7 @@ t_cmd	*parse_commands(t_lexim *lexims)
 	}
 	//print_parsing(cmds);
 	ft_expand(cmds, general->command_count);
+	//exit(0);
 	convert_args(cmds);
 	return (cmds);
 }

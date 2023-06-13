@@ -22,7 +22,7 @@ void	change_env_exp(char *str)
 	old = ft_strjoin("=", old);
 	if (chdir(str) == -1)
 	{
-		ft_fdprintf(2, "cd: not a directory: str\n");
+		ft_fdprintf(2, "minishell: cd: %s: Not a directory\n", str);
 		general->exit_status = 1;
 		return ;
 	}
@@ -30,19 +30,19 @@ void	change_env_exp(char *str)
 	str = ft_strjoin("=", str);
 	while (exp)
 	{
-		if (!ft_strncmp(exp->id, "PWD", 3))
-		{
-			if (ft_strlen(exp->id) == 3)
+		if (!ft_strncmp(exp->id, "PWD", -1))
 				exp->data = str;
-		}
-		if (!ft_strncmp(exp->id, "OLDPWD", 6))
-		{
-			if (ft_strlen(exp->id) == 6)
+		if (!ft_strncmp(exp->id, "OLDPWD", -1))
 				exp->data = old;
-		}
 		exp = exp->next;
 	}
 	
+}
+
+void	print_error(char *str)
+{
+	ft_fdprintf(2, "minishell: cd: %s: No such file or directory\n", str);
+	general->exit_status = 1;
 }
 
 void	ft_cd(t_command *cmds)
@@ -62,18 +62,12 @@ void	ft_cd(t_command *cmds)
 		else if (!access(str, F_OK))
 			change_env_exp(str);
 		else
-		{
-			ft_fdprintf(2, "minishell: cd: %s: No such file or directory\n", str);
-			general->exit_status = 1;
-		}
+			print_error(str);
 		return ;
 	}
 	str = cmds->command_args[1];
 	if (!access(str, F_OK))
 		change_env_exp(str);
 	else
-	{
-		ft_fdprintf(2, "minishell: cd: %s: No such file or directory\n", str);
-		general->exit_status = 1;
-	}
+		print_error(str);
 }

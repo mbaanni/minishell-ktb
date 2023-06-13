@@ -6,7 +6,7 @@
 /*   By: mbaanni <mbaanni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 09:37:04 by mtaib             #+#    #+#             */
-/*   Updated: 2023/06/11 22:37:35 by mtaib            ###   ########.fr       */
+/*   Updated: 2023/06/13 12:11:52 by mtaib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,19 @@ char	*parse_string(char	*str)
 			s2 = ft_strjoin(s2, s);
 			i++;
 		}
+		if (str[i] && (str[i] == '"' || str[i] == '\''))
+			i++;
+		while (str[i] && str[i] != '"' && str[i] != '\'')
+		{
+			s[0] = str[i];
+			s[1] = '\0';
+			s2 = ft_strjoin(s2, s);
+			i++;
+		}
 	}
+
+	//if (str[i] && str[i] != '"' && str[i] != '\'')
+	//	s2 = ft_strjoin(s2, &str[i]);
 	if (!s2)
 		return (ft_strdup("\0"));
 	return (s2);
@@ -257,7 +269,21 @@ t_command	*convert_args(t_cmd *cmds)
 				if (should_parse(tmp_redir->file) && tmp_redir->is_expand != 2)
 							/*||  tmp_redir->file[1] == '\''
 							||  tmp_redir->file[0] == '\'' )*/
+				{
+					replace_str(tmp_redir->file);
 					tmp_redir->file = parse_string(tmp_redir->file);
+					//printf("---%s\n",tmp_redir->file);
+					//str = ft_strdup(tmp_redir->file);
+					if (!(ft_split(tmp_redir->file, 1))[1])
+					{
+						tmp_redir->file = *ft_split(tmp_redir->file, 1);
+					}
+				}
+				else if (should_parse(tmp_redir->file))
+				{
+					tmp_redir->file = parse_string(tmp_redir->file);
+				}
+				//printf("%s\n",tmp_redir->file);
 				tmp_redir = tmp_redir->next;
 			}
 		}

@@ -109,6 +109,7 @@ char	*find_in_env(char *str, int len);
 int		lent_identifier(char *str);
 char	*expand_var(char *str);
 t_lexim	*new_lexim(char *str);
+void	replace_str(char *str);
 /***************************/
 
 char		**get_args(t_list *cmd);
@@ -131,9 +132,10 @@ typedef struct s_general{
 	int			exit_status;
 	int			command_count;
 	char		**ev;
+	int			_XH;
 	int			sig;
 	unsigned int	old_c_lflag;
-	struct termios *_terminal;
+	struct termios _terminal;
 	int			prev[2];
 	int			next[2];
 }	t_general;

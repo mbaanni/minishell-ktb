@@ -6,7 +6,7 @@
 /*   By: mbaanni <mbaanni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 21:49:53 by mtaib             #+#    #+#             */
-/*   Updated: 2023/06/10 17:00:55 by mtaib            ###   ########.fr       */
+/*   Updated: 2023/06/13 12:47:53 by mtaib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ char	*sub_spe_lexim(char *str)
 	i = 0;
 	if (str[i] == '"' || str[i] == '\'')
 		i = count_chars_for_quotes(&str[i]);
-	else if (str[i] == '$')
+	else if (str[i] == '$' && str[i + 1] != '$')
 		i = count_chars_for_env(&str[i]);
 	else
 		i = count_chars_for_rep(&str[i]);
@@ -142,45 +142,16 @@ char	*sub_lexim(char *str)
 int	special_lexims(char *str, int i, char c, t_lexim **lexims)
 {
 	t_lexim *tmp;
+	int		j;
 
+	j = 0;
 	add_back(lexims, new_lexim(sub_spe_lexim(&str[i])));
 	tmp = *lexims;
-	//printf("%s\n",sub_spe_lexim(&str[i]));
 	while (tmp && tmp->next)
 		tmp = tmp->next;
-	int		j;
-	(void)c;
-	j = 0;
 	while (tmp && tmp->content[j])
 		j++;
-	/*if (ft_strchr("|<>",str[i]))
-		while (str[i] && str[i+1] && str[i] == str[i + 1])
-			i++;
-	else if (str[i] == '$')
-	{
-		i++;
-		while (str[i])
-		{
-			if (!ft_isalpha(str[i]) && !ft_isdigit(str[i]) && str[i] != '_'
-				&& str[i] != '@' && str[i] != '?')
-				break ;
-			i++;
-		}
-	}
-	else if (str[i] && (str[i] == '\'' || str[i] == '"'))
-	{
-		while (str[i] && str[i] != ' ' && (str[i] == '\'' || str[i] == '"'))
-		{
-			c = str[i++];
-			while (str[i] && str[i] != c)
-				i++;
-			if (str[i])
-				i++;
-		}
-		c = '1';
-	}
-	if (ft_strchr("|<>",str[i]) && c != '1')
-		i++;*/
+	(void)c;
 	i += j;
 	return (i);
 }

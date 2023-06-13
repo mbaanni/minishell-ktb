@@ -6,7 +6,7 @@
 /*   By: mtaib <mtaib@student.1337.ma>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 19:35:50 by mtaib             #+#    #+#             */
-/*   Updated: 2023/06/10 17:01:05 by mtaib            ###   ########.fr       */
+/*   Updated: 2023/06/13 12:53:20 by mtaib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,9 @@ void	tokenize_lexims(t_lexim *lexims)
 void	tokenize_elements(t_lexim *lexims)
 {
 	t_lexim	*tmp;
+	int		i;
 
+	i = 0;
 	tmp = lexims;
 	parse_env(lexims);
 	while (lexims)
@@ -134,4 +136,5 @@ void	tokenize_elements(t_lexim *lexims)
 	}
 	parse_commands(tmp);
 	//print_tokens(tmp);
+	//exit(0);
 }

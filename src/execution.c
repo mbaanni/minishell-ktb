@@ -37,8 +37,7 @@ int	redirection_handler(t_command *commands, int fdin, int fdout)
 			fd = open(redir->file, oflags, 0644);
 		if (redir->is_expand == 2)
 		{
-			// if (redir->file[0] || redir->token != RDIROUT)
-				ft_fdprintf(2, "minishell: %s: ambiguous redirect\n",redir->file);
+			ft_fdprintf(2, "minishell: %s: ambiguous redirect\n",redir->file);
 			general->exit_status = 1;
 			return (1);
 		}
@@ -124,23 +123,23 @@ void executing_phase()
 	}
 	while(++i < general->command_count)
 	{
+		fd = -1;
 		new_env = set_new_env();
 		if (i < general->command_count - 1)
 			pipe(general->next);
 		fd = here_doc(commands->command_redirections);
 		general->sig = 1;
+		general->_terminal.c_lflag = general->old_c_lflag;
+		tcsetattr(0, TCSANOW, &general->_terminal);
 		pid[i] = fork();
 		if (pid[i] == 0)
 		{
-			if (i == 0)
+			if (fd != -1)
 			{
-				if (fd)
-				{
-					dup2(fd, 0);
-					close(fd);
-				}
+				dup2(fd, 0);
+				close(fd);
 			}
-			if (i > 0)
+			else if (i > 0)
 			{
 				dup2(general->prev[0], 0);
 				close(general->prev[0]);
@@ -160,7 +159,7 @@ void executing_phase()
 				exit(general->exit_status);
 			check_file_exist(commands->command_path);
 			execve(commands->command_path, commands->command_args, new_env);
-				perror(0);
+			perror(0);
 			exit (1);
 		}
 		else
@@ -182,6 +181,7 @@ void executing_phase()
 	while (++i < general->command_count)
 	{
 		waitpid(pid[i], &stats, 0);
-		general->exit_status = stats >> 8;
+		if (general->sig != 3)
+			general->exit_status = stats >> 8;
 	}
 }

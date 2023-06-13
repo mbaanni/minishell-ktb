@@ -123,20 +123,20 @@ int	here_doc(t_redir *redir)
 	int		fd;
 
 	buf = 0;
-	fd = 0;
+	fd = -1;
 	while (redir)
 	{
 		if (redir->token == HERE_DOC)
 		{
+			fd = -1;
 			str = 0;
-			if (fd)
-				close(fd);
 			while (1)
 			{
-				//buf = readline(">");
-				if(isatty(0))
-					write(1, ">", 1);
-				buf = get_next_line(0);
+				if (general->_XH != -1)
+					return (-1);
+				general->_XH = dup(0);
+				write(1, ">", 1);
+				buf = get_next_line(general->_XH);
 				if(!buf)
 					break;
 				if (buf && buf[ft_strlen(buf) - 1] == '\n')

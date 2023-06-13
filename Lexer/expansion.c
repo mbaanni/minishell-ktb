@@ -6,7 +6,7 @@
 /*   By: mtaib <mtaib@student.1337.ma>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 15:36:10 by mtaib             #+#    #+#             */
-/*   Updated: 2023/06/11 22:54:55 by mtaib            ###   ########.fr       */
+/*   Updated: 2023/06/13 12:54:08 by mtaib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,20 +34,17 @@ char	*sub_keycode(char	*str)
 	return (keycode);
 }
 
-int		check_ambigious(char *str)
+void	replace_str(char *str)
 {
-	char	**args;
 	int		i;
 	int		state;
-	int		count;
 
-	count = 0;
 	state = 1;
 	i = 0;
 	while (str[i])
 	{
 		if (str[i] == '"' || str[i] == '\'')
-		{	
+		{
 			state = 0;
 			i++;
 		}
@@ -62,6 +59,16 @@ int		check_ambigious(char *str)
 		if (state)
 			i++;
 	}
+}
+
+int		check_ambigious(char *str)
+{
+	char	**args;
+	int		i;
+	int		count;
+
+	count = 0;
+	replace_str(str);
 	args = ft_split(str, 1);
 	//printf("--str ==%s--\n",str);
 	//printf("here = ---%s---\n",args[1]);
@@ -80,6 +87,22 @@ int		check_ambigious(char *str)
 		i++;
 	}
 	if (count > 1 || !count)
+		return (0);
+	return (1);
+}
+
+int		is_space(char *str)
+{
+	int		i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] != ' ')
+			return (0);
+		i++;
+	}
+	if (!i)
 		return (0);
 	return (1);
 }
@@ -110,10 +133,20 @@ t_cmd	*ft_expand(t_cmd *cmds, int nb_cmds)
 					&& tmp_lexim->token == WORD 
 					&& tmp_lexim->content[0] == '$')
 			{
-				if (!tmp_lexim->content[1])
-					tmp_lexim->content = "\0";
+				if (tmp_lexim->content[1] == '@')
+					tmp_lexim->content += 2;
+				else if (tmp_lexim->content[1] == '$')
+				{
+					tmp_lexim->content++;
+					while ((*tmp_lexim->content) && (*tmp_lexim->content) == '$')
+						tmp_lexim->content++;
+					if (!*tmp_lexim->content)
+						tmp_lexim->content = "$";
+				}
+				//if (!tmp_lexim->content[1])
+				//	tmp_lexim->content = "\0";
 			}
-			if (tmp_lexim->token == ENV)
+			else if (tmp_lexim->token == ENV)
 			{
 				if (tmp_lexim->content[0] == '"')
 				{
@@ -122,7 +155,7 @@ t_cmd	*ft_expand(t_cmd *cmds, int nb_cmds)
 					tmp_lexim->content = expand_var(tmp_lexim->content);
 					//printf("%s\n",tmp_lexim->content);
 				}
-				else if (tmp_lexim->content[0] != '"' && !check_ambigious(expand_var(tmp_lexim->content)))
+				else if (tmp_lexim->content[0] != '"' && !check_ambigious(expand_var(tmp_lexim->content)) && !is_space(expand_var(tmp_lexim->content)))
 				{
 					args = ft_split(expand_var(tmp_lexim->content), ' ');
 					j = -1;
@@ -144,7 +177,14 @@ t_cmd	*ft_expand(t_cmd *cmds, int nb_cmds)
 				}
 				else
 				{
-						tmp_lexim->content = expand_var(tmp_lexim->content);
+						if (tmp_lexim->prev && tmp_lexim->prev->token == SPACES)
+						{
+							tmp_lexim->content = *ft_split(expand_var(tmp_lexim->content), ' ');
+						}
+						else
+						{
+							tmp_lexim->content = expand_var(tmp_lexim->content);
+						}
 				}
 			}
 			tmp_lexim = tmp_lexim->next;
@@ -226,7 +266,8 @@ t_cmd	*ft_expand(t_cmd *cmds, int nb_cmds)
 		}
 		break;
 		i++;
-	}*/
+	}
+	exit(0);*/
 	/*i = 0;
 	while (cmds[i].redirs)
 	{
