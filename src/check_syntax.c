@@ -6,7 +6,7 @@
 /*   By: mbaanni <mbaanni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 09:18:12 by mbaanni           #+#    #+#             */
-/*   Updated: 2023/06/08 11:33:48 by mbaanni          ###   ########.fr       */
+/*   Updated: 2023/06/14 20:22:26 by mbaanni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,20 @@ int	error_cout(int double_cout, int signle_cout)
 	if (double_cout % 2)
 	{
 		ft_fdprintf(2,
-				"minishell: unexpected EOF while looking for matching\n");
+			"minishell: unexpected EOF while looking for matching\n");
 		g_grl->exit_status = 1;
 		return (1);
 	}
 	if (signle_cout % 2)
 	{
 		ft_fdprintf(2,
-				"minishell: unexpected EOF while looking for matching\n");
+			"minishell: unexpected EOF while looking for matching\n");
 		g_grl->exit_status = 1;
 		return (1);
 	}
 	return (0);
 }
+
 int	check_syntax(char *str)
 {
 	int	i;
@@ -45,7 +46,7 @@ int	check_syntax(char *str)
 				&& str[i] == '|'))
 		{
 			ft_fdprintf(2,
-					"minishell: syntax error near unexpected token `|'\n");
+				"minishell: syntax error near unexpected token `|'\n");
 			g_grl->exit_status = 258;
 			return (1);
 		}

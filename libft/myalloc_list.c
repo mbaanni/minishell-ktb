@@ -1,4 +1,14 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   myalloc_list.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbaanni <mbaanni@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/14 20:14:47 by mbaanni           #+#    #+#             */
+/*   Updated: 2023/06/14 20:14:52 by mbaanni          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "libft.h"
 
@@ -38,7 +48,6 @@ void	my_alloc_addback(t_myalloc **lst, t_myalloc *new)
 		*lst = new;
 }
 
-
 void	my_alloc_clear(t_myalloc **lst, void (*del)(void *))
 {
 	t_myalloc	*tmp;
@@ -48,10 +57,9 @@ void	my_alloc_clear(t_myalloc **lst, void (*del)(void *))
 	while (*lst)
 	{
 		tmp = (*lst)->next;
-        free((*lst)->content);
-        free(*lst);
+		free((*lst)->content);
+		free(*lst);
 		(*lst) = tmp;
 	}
 	*lst = NULL;
 }
-

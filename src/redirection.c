@@ -6,7 +6,7 @@
 /*   By: mbaanni <mbaanni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 13:03:45 by mbaanni           #+#    #+#             */
-/*   Updated: 2023/06/14 19:07:09 by mbaanni          ###   ########.fr       */
+/*   Updated: 2023/06/14 20:20:31 by mbaanni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	redir_erro(t_redir *redir, int fd)
 	return (0);
 }
 
-void	redirect_it(t_redir	*redir, int fd, int fdin, int fdout)
+void	redirect_it(t_redir *redir, int fd, int fdin, int fdout)
 {
 	if (redir->token == RDIRIN)
 	{

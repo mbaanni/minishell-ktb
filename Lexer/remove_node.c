@@ -12,7 +12,6 @@
 
 #include "../includes/minishell.h"
 
-
 // void	ft_list_remove_if(t_list *head, void *node)
 // {
 // 	t_list *tmp;

@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 #include "libft.h"
 
-void	*ft_memcpy(void *dst,  void *src, int n)
+void	*ft_memcpy(void *dst, void *src, int n)
 {
 	int	i;
 

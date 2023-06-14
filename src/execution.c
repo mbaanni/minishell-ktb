@@ -6,14 +6,11 @@
 /*   By: mbaanni <mbaanni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 18:26:32 by mbaanni           #+#    #+#             */
-/*   Updated: 2023/06/14 20:09:57 by mbaanni          ###   ########.fr       */
+/*   Updated: 2023/06/14 20:21:11 by mbaanni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-#include <stdio.h>
-#include <sys/fcntl.h>
-#include <unistd.h>
 
 void	check_file_exist(char *str)
 {
@@ -32,7 +29,7 @@ void	check_file_exist(char *str)
 	}
 }
 
-int	one_cmd(t_command	*commands)
+int	one_cmd(t_command *commands)
 {
 	int	fd;
 	int	fdout;
@@ -45,16 +42,14 @@ int	one_cmd(t_command	*commands)
 		if (redirection_handler(commands, fd, fdout))
 			return (1);
 		check_for_built_in(commands, 1);
-		//dup2(fd, 0);
 		close(fd);
-		//dup2(fdout, 1);
 		close(fdout);
 		return (1);
 	}
 	return (0);
 }
 
-void	child_work1(t_command	*commands)
+void	child_work1(t_command *commands)
 {
 	if (redirection_handler(commands, 0, 1))
 		custom_exit(1);
@@ -119,7 +114,7 @@ void	parent_work(int i)
 
 void	wait_for_chiled(int *pid)
 {
-	int i;
+	int	i;
 	int	stats;
 
 	stats = 0;

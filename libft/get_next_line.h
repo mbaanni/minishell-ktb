@@ -15,9 +15,9 @@
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 64
 # endif
+# include "libft.h"
 # include <stdlib.h>
 # include <unistd.h>
-# include "libft.h"
 
 char	*get_next_line(int fd);
 int		ft_nstrchr(char *str);

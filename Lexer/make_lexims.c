@@ -141,7 +141,7 @@ char	*sub_lexim(char *str)
 
 int	special_lexims(char *str, int i, char c, t_lexim **lexims)
 {
-	t_lexim *tmp;
+	t_lexim	*tmp;
 	int		j;
 
 	j = 0;
@@ -173,7 +173,7 @@ t_lexim	*convert_to_lexims(char *str)
 			{
 				add_back(&lexims, new_lexim(sub_lexim(&str[i])));
 				while (str[i] && (!ft_strchr("\"'$<>|", str[i])
-					&& str[i] != ' '))
+							&& str[i] != ' '))
 					i++;
 			}
 		}

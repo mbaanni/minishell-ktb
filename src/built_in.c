@@ -6,7 +6,7 @@
 /*   By: mbaanni <mbaanni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 15:37:21 by mbaanni           #+#    #+#             */
-/*   Updated: 2023/06/14 19:55:12 by mbaanni          ###   ########.fr       */
+/*   Updated: 2023/06/14 20:23:02 by mbaanni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	exit_atoi(char *str)
 		else
 		{
 			ft_fdprintf(2, "minishell: exit: %s: numeric argument required\n",
-					str);
+				str);
 			custom_exit(255);
 		}
 		i++;

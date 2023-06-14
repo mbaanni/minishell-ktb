@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 #include "libft.h"
 
-static int	isset(char c, char  *set)
+static int	isset(char c, char *set)
 {
 	int	i;
 
@@ -25,7 +25,7 @@ static int	isset(char c, char  *set)
 	return (0);
 }
 
-static void	start_end(char  *s1, char  *set, int *i, int *j)
+static void	start_end(char *s1, char *set, int *i, int *j)
 {
 	while (*j >= 0 && isset(s1[*j], set))
 	{
@@ -38,7 +38,7 @@ static void	start_end(char  *s1, char  *set, int *i, int *j)
 	}
 }
 
-char	*ft_strtrim(char  *s1, char  *set)
+char	*ft_strtrim(char *s1, char *set)
 {
 	int		j;
 	int		i;

@@ -32,7 +32,7 @@ void	init_general(char **env)
 
 	g_grl = my_alloc(sizeof(t_general));
 	if (!g_grl)
-		custom_exit (1);
+		custom_exit(1);
 	g_grl->sig = 0;
 	tcgetattr(0, &terminal);
 	g_grl->old_c_lflag = terminal.c_lflag;
@@ -82,7 +82,7 @@ void	start_pr_ex(char *str)
 
 int	main(int ac, char **av, char **ev)
 {
-	char			*str;
+	char	*str;
 
 	(void)ac;
 	(void)av;

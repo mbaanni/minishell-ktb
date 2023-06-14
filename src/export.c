@@ -12,9 +12,9 @@
 
 #include "../includes/minishell.h"
 
-void	print_data(t_env	*ptr)
+void	print_data(t_env *ptr)
 {
-	int		i;
+	int	i;
 
 	i = -1;
 	ft_fdprintf(1, "=\"");
@@ -95,8 +95,8 @@ int	check_identifier(char *str)
 
 void	ft_export(t_command *cmd)
 {
-	int		i;
-	int		flag;
+	int	i;
+	int	flag;
 
 	i = 0;
 	flag = 0;

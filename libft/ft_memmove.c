@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 #include "libft.h"
 
-void	*ft_memmove(void *dst,  void *src, int len)
+void	*ft_memmove(void *dst, void *src, int len)
 {
 	if (!dst && !src)
 		return (NULL);

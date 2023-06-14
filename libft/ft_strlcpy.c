@@ -10,11 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
-
 #include "libft.h"
 
-int	ft_strlcpy(char *dst,  char *src, int dstsize)
+int	ft_strlcpy(char *dst, char *src, int dstsize)
 {
 	int	i;
 

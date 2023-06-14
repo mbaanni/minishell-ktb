@@ -88,4 +88,3 @@ int	ft_fdprintf(int fd, char *str, ...)
 	va_end(lst);
 	return (counter);
 }
-

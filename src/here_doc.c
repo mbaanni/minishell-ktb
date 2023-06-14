@@ -41,7 +41,7 @@ char	*get_exp(char *str, int *i)
 
 char	*expand_for_heredoc(char *str)
 {
-	int		i;
+	int	i;
 
 	i = -1;
 	if (!str)

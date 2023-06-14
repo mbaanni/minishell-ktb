@@ -12,9 +12,9 @@
 
 #include "../includes/minishell.h"
 
-int sin_int()
+int	sin_int(void)
 {
-    ft_fdprintf(1, "\n");
+	ft_fdprintf(1, "\n");
 	if (g_grl->_XH != -1)
 	{
 		g_grl->exit_status = 1;
@@ -29,7 +29,7 @@ int sin_int()
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
-    return (0);
+	return (0);
 }
 
 void	handle_signal(int sig)
@@ -37,7 +37,7 @@ void	handle_signal(int sig)
 	if (sig == SIGINT)
 	{
 		if (sin_int())
-            return ;
+			return ;
 	}
 	else if (sig == SIGQUIT)
 	{

@@ -6,7 +6,7 @@
 /*   By: mbaanni <mbaanni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 17:58:04 by mbaanni           #+#    #+#             */
-/*   Updated: 2023/06/08 21:26:11 by mbaanni          ###   ########.fr       */
+/*   Updated: 2023/06/14 20:20:12 by mbaanni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	open_heredoc(char *str)
 			break ;
 	}
 }
+
 int	take_token(t_token *token, t_lexim *lexim)
 {
 	if (!*token && (lexim->token == PIPE || lexim->token == RDIRIN
@@ -55,8 +56,7 @@ int	take_token(t_token *token, t_lexim *lexim)
 		if (lexim->content && ft_strlen(lexim->content) > 2)
 		{
 			ft_fdprintf(2,
-					"minishell: syntax error near unexpected token`%c'\n",
-					*token);
+				"minishell: syntax error near unexpected token`%c'\n", *token);
 			return (1);
 		}
 		if (*token == PIPE)
@@ -64,8 +64,8 @@ int	take_token(t_token *token, t_lexim *lexim)
 			if (ft_strlen(lexim->content) > 1)
 			{
 				ft_fdprintf(2,
-						"minishell: syntax error near unexpected token`%c'\n",
-						*token);
+					"minishell: syntax error near unexpected token`%c'\n",
+					*token);
 				return (1);
 			}
 			if (lexim->next)
@@ -98,8 +98,8 @@ int	check_token_syntax(t_lexim *lexim)
 					|| lexim->next->token == APPEND))
 			{
 				ft_fdprintf(2,
-						"minishell: syntax error near unexpected token `%c'\n",
-						lexim->next->token);
+					"minishell: syntax error near unexpected token `%c'\n",
+					lexim->next->token);
 				g_grl->exit_status = 258;
 				return (1);
 			}
@@ -107,7 +107,7 @@ int	check_token_syntax(t_lexim *lexim)
 		if (!lexim->next && token)
 		{
 			ft_fdprintf(2,
-					"minishell: syntax error near unexpected token `newline'\n");
+				"minishell: syntax error near unexpected token `newline'\n");
 			g_grl->exit_status = 258;
 			return (1);
 		}

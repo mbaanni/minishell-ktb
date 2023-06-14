@@ -10,8 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
-
 #include "libft.h"
 
 static int	check(char c, char ch)
@@ -21,7 +19,7 @@ static int	check(char c, char ch)
 	return (1);
 }
 
-static int	count(char  *s, char c)
+static int	count(char *s, char c)
 {
 	int	i;
 	int	count;
@@ -41,7 +39,7 @@ static int	count(char  *s, char c)
 	return (count);
 }
 
-static int	word_len(char  *s, char c)
+static int	word_len(char *s, char c)
 {
 	int	i;
 
@@ -51,7 +49,7 @@ static int	word_len(char  *s, char c)
 	return (i);
 }
 
-char	**ft_split(char  *s, char c)
+char	**ft_split(char *s, char c)
 {
 	char	**str;
 	int		i[2];

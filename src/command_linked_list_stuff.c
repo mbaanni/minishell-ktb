@@ -6,7 +6,7 @@
 /*   By: mbaanni <mbaanni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 16:11:40 by mbaanni           #+#    #+#             */
-/*   Updated: 2023/06/06 13:40:22 by mbaanni          ###   ########.fr       */
+/*   Updated: 2023/06/14 20:21:42 by mbaanni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ t_command	*ft_last_command(t_command *lst)
 	}
 	return (lst);
 }
+
 void	ft_command_add_back(t_command **head, t_command *cmd)
 {
 	t_command	*tmp;
@@ -88,6 +89,7 @@ t_redir	*ft_last_redir(t_redir *lst)
 	}
 	return (lst);
 }
+
 void	ft_redir_add_back(t_redir **head, t_redir *cmd)
 {
 	t_redir	*tmp;
