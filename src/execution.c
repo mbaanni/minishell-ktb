@@ -10,21 +10,20 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include"../includes/minishell.h"
+#include "../includes/minishell.h"
 #include <stdio.h>
 #include <sys/fcntl.h>
 #include <unistd.h>
 
 int	redirection_handler(t_command *commands, int fdin, int fdout)
 {
-	int             fd;
-	int             oflags;
-	t_redir   *redir;
+	int		fd;
+	int		oflags;
+	t_redir	*redir;
 
 	redir = commands->command_redirections;
 	while (redir)
 	{
-		
 		fd = -1;
 		oflags = 0;
 		if (redir->token == RDIRIN)
@@ -37,13 +36,14 @@ int	redirection_handler(t_command *commands, int fdin, int fdout)
 			fd = open(redir->file, oflags, 0644);
 		if (redir->is_expand == 2)
 		{
-			ft_fdprintf(2, "minishell: %s: ambiguous redirect\n",redir->file);
+			ft_fdprintf(2, "minishell: %s: ambiguous redirect\n", redir->file);
 			general->exit_status = 1;
 			return (1);
 		}
 		if (access(redir->file, F_OK) && redir->token != HERE_DOC)
 		{
-			ft_fdprintf(2, "minishell: %s: No such file or directory\n", redir->file);
+			ft_fdprintf(2, "minishell: %s: No such file or directory\n",
+					redir->file);
 			general->exit_status = 1;
 			return (1);
 		}
@@ -77,22 +77,22 @@ void	check_file_exist(char *str)
 	}
 	if (access(str, F_OK))
 	{
-		if(ft_strchr(str, '/'))
+		if (ft_strchr(str, '/'))
 			ft_fdprintf(2, "minishell: No such file or directory\n");
 		else
 			ft_fdprintf(2, "minishell: command not found\n");
 		exit(127);
-	}	
+	}
 }
 
-void executing_phase()
+void	executing_phase(void)
 {
-	t_command   *commands;
+	t_command	*commands;
 	int			stats;
-	int         i;
+	int			i;
 	int			fd;
 	int			fdout;
-	int         *pid;
+	int			*pid;
 	char		**new_env;
 
 	i = -1;
@@ -101,7 +101,9 @@ void executing_phase()
 	pid = my_alloc(sizeof(int) * general->command_count);
 	if (general->command_count == 1)
 	{
-		if (commands->command_path && ft_strncmp("echo", commands->command_path, -1) && ft_strncmp("pwd", commands->command_path, -1) && check_for_built_in(commands, 0))
+		if (commands->command_path && ft_strncmp("echo", commands->command_path,
+				-1) && ft_strncmp("pwd", commands->command_path, -1)
+			&& check_for_built_in(commands, 0))
 		{
 			fd = dup(STDIN_FILENO);
 			fdout = dup(STDOUT_FILENO);
@@ -121,13 +123,19 @@ void executing_phase()
 		general->exit_status = 127;
 		return ;
 	}
-	while(++i < general->command_count)
+	while (++i < general->command_count)
 	{
 		fd = -1;
 		new_env = set_new_env();
 		if (i < general->command_count - 1)
 			pipe(general->next);
 		fd = here_doc(commands->command_redirections);
+		if (general->_XH == -2)
+		{
+			general->_XH = -2;
+			general->exit_status = 1;
+			return ;
+		}
 		general->sig = 1;
 		general->_terminal.c_lflag = general->old_c_lflag;
 		tcsetattr(0, TCSANOW, &general->_terminal);
@@ -152,7 +160,7 @@ void executing_phase()
 				close(general->next[1]);
 			}
 			if (redirection_handler(commands, 0, 1))
-				exit (1);
+				exit(1);
 			if (!commands->command_args)
 				exit(0);
 			if (check_for_built_in(commands, 1))
@@ -160,7 +168,7 @@ void executing_phase()
 			check_file_exist(commands->command_path);
 			execve(commands->command_path, commands->command_args, new_env);
 			perror(0);
-			exit (1);
+			exit(1);
 		}
 		else
 		{

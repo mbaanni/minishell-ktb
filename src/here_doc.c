@@ -11,9 +11,6 @@
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-#include <readline/history.h>
-#include <unistd.h>
-# include "../libft/get_next_line.h"
 
 int	set_file(char *str)
 {
@@ -46,7 +43,7 @@ int	ft_lstrcmp(char *s1, char *s2)
 
 char	*find_in_envs(char *str, int len)
 {
-	t_env *env;
+	t_env	*env;
 
 	env = general->env_head;
 	while (env)
@@ -91,7 +88,8 @@ char	*expand_for_heredoc(char *str)
 		return (0);
 	while (str[++i])
 	{
-		if (str[i + 1] && str[i] == '$' && (str[i + 1] == '?' || (ft_isalpha(str[i + 1]) || str[i + 1] == '_')))
+		if (str[i + 1] && str[i] == '$' && (str[i + 1] == '?'
+				|| (ft_isalpha(str[i + 1]) || str[i + 1] == '_')))
 		{
 			if (str[i + 1] == '?')
 			{
@@ -130,15 +128,15 @@ int	here_doc(t_redir *redir)
 		{
 			fd = -1;
 			str = 0;
+			if (general->_XH == -2)
+				return (-1);
+			general->_XH = dup(0);
 			while (1)
 			{
-				if (general->_XH != -1)
-					return (-1);
-				general->_XH = dup(0);
 				write(1, ">", 1);
 				buf = get_next_line(general->_XH);
-				if(!buf)
-					break;
+				if (!buf)
+					break ;
 				if (buf && buf[ft_strlen(buf) - 1] == '\n')
 					buf[ft_strlen(buf) - 1] = 0;
 				if (buf)
@@ -151,6 +149,7 @@ int	here_doc(t_redir *redir)
 					str = ft_strjoin(str, buf);
 				}
 			}
+			close(general->_XH);
 			fd = set_file(str);
 		}
 		redir = redir->next;

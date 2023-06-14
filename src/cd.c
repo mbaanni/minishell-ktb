@@ -31,12 +31,11 @@ void	change_env_exp(char *str)
 	while (exp)
 	{
 		if (!ft_strncmp(exp->id, "PWD", -1))
-				exp->data = str;
+			exp->data = str;
 		if (!ft_strncmp(exp->id, "OLDPWD", -1))
-				exp->data = old;
+			exp->data = old;
 		exp = exp->next;
 	}
-	
 }
 
 void	print_error(char *str)

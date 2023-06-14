@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../includes/minishell.h"
+#include "../includes/minishell.h"
 
 int	find_char(char *str, char c)
 {
@@ -45,17 +45,20 @@ void	unset_env(t_env *envp, char *cmd)
 	}
 }
 
-void    ft_unset(t_command *cmd)
+void	ft_unset(t_command *cmd)
 {
-	int 	i;
+	int		i;
 	t_env	*envp;
 
 	i = 0;
 	while (cmd->command_args[++i])
 	{
 		envp = general->env_head;
-		if (!(ft_isalpha(cmd->command_args[i][0]) || cmd->command_args[i][0] == '_') || find_char(cmd->command_args[i], '='))
-			ft_fdprintf(2, "Minishell: unset: `%s': not a valid identifier\n", cmd->command_args[i]);
+		if (!(ft_isalpha(cmd->command_args[i][0])
+				|| cmd->command_args[i][0] == '_')
+			|| find_char(cmd->command_args[i], '='))
+			ft_fdprintf(2, "Minishell: unset: `%s': not a valid identifier\n",
+					cmd->command_args[i]);
 		else
 			unset_env(envp, cmd->command_args[i]);
 	}

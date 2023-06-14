@@ -10,14 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../includes/minishell.h"
+#include "../includes/minishell.h"
 
-int check_argument_export(t_command *cmd)
+int	check_argument_export(t_command *cmd)
 {
 	t_env	*ptr;
 	int		i;
 
-    ptr = general->env_head;
+	ptr = general->env_head;
 	if (!cmd->command_args[1])
 	{
 		while (ptr)
@@ -33,7 +33,7 @@ int check_argument_export(t_command *cmd)
 					if (ptr->data[i] == '"' || ptr->data[i] == '$')
 						printf("\\");
 					printf("%c", ptr->data[i]);
-				}	
+				}
 				printf("\"");
 			}
 			printf("\n");
@@ -41,20 +41,20 @@ int check_argument_export(t_command *cmd)
 		}
 		return (1);
 	}
-    return (0);
+	return (0);
 }
 
-int check_if_exicts(char *str)
+int	check_if_exicts(char *str)
 {
-    t_env   *ptr;
+	t_env	*ptr;
 	int		len;
 	int		str_len;
 
-    ptr = general->env_head;
+	ptr = general->env_head;
 	str_len = ft_strlen(str);
 	len = index_signe(str);
-    while (ptr)
-    {
+	while (ptr)
+	{
 		if (!ft_strncmp(ptr->id, str, len))
 		{
 			if (ft_strlen(ptr->id) == len)
@@ -69,8 +69,8 @@ int check_if_exicts(char *str)
 			}
 		}
 		ptr = ptr->next;
-    }
-    return (0);
+	}
+	return (0);
 }
 
 int	check_identifier(char *str)
@@ -100,7 +100,7 @@ void	ft_export(t_command *cmd)
 	tmp = 0;
 	general->exit_status = 0;
 	if (check_argument_export(cmd))
-        return ;
+		return ;
 	while (cmd->command_args[++i])
 	{
 		if (check_identifier(cmd->command_args[i]))
@@ -111,8 +111,9 @@ void	ft_export(t_command *cmd)
 		else if (!check_if_exicts(cmd->command_args[i]))
 		{
 			tmp = my_alloc(sizeof(t_env));
-        	tmp->id = ft_substr(cmd->command_args[i], 0, index_signe(cmd->command_args[i]));
-        	tmp->data = ft_strchr_data(cmd->command_args[i]);
+			tmp->id = ft_substr(cmd->command_args[i], 0,
+					index_signe(cmd->command_args[i]));
+			tmp->data = ft_strchr_data(cmd->command_args[i]);
 			if (tmp->data)
 				tmp->i = 1;
 			else

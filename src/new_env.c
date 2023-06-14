@@ -10,11 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../includes/minishell.h"
+#include "../includes/minishell.h"
 
-int list_env_size(t_env *ptr)
+int	list_env_size(t_env *ptr)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (ptr)
@@ -25,15 +25,15 @@ int list_env_size(t_env *ptr)
 	return (i);
 }
 
-char    **set_new_env()
+char	**set_new_env(void)
 {
-	t_env   *env;
-	char    **new_env;
-	int     i;
+	t_env	*env;
+	char	**new_env;
+	int		i;
 
 	i = 0;
 	env = general->env_head;
-	new_env = my_alloc(sizeof(char*) * (list_env_size(env) + 1));
+	new_env = my_alloc(sizeof(char *) * (list_env_size(env) + 1));
 	while (env)
 	{
 		if (env->data)

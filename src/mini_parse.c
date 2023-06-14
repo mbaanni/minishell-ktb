@@ -40,7 +40,7 @@ char	*get_path(char *argu)
 	return (argu);
 }
 
-void    find_path()
+void	find_path(void)
 {
 	t_command	*ptr;
 	int			i;
@@ -51,7 +51,7 @@ void    find_path()
 	{
 		if (!ptr->command_args)
 			return ;
-		if (check_for_built_in(ptr , 0) || *ptr->command_args[0] == 0)
+		if (check_for_built_in(ptr, 0) || *ptr->command_args[0] == 0)
 			ptr->command_path = ft_strdup(*ptr->command_args);
 		else
 			ptr->command_path = get_path(*ptr->command_args);

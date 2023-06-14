@@ -12,17 +12,18 @@
 
 #include "../includes/minishell.h"
 
-t_command	*ft_new_command(char *command_path, char **command_args, t_redir *command_redirections, int is_valid)
+t_command	*ft_new_command(char *command_path, char **command_args,
+		t_redir *command_redirections, int is_valid)
 {
 	t_command	*new_command;
 
 	new_command = my_alloc(sizeof(t_command));
 	if (!new_command)
 		return (0);
-    new_command->command_path = command_path;
-    new_command->command_args = command_args;
-    new_command->command_redirections = command_redirections;
-    new_command->is_valid = is_valid;
+	new_command->command_path = command_path;
+	new_command->command_args = command_args;
+	new_command->command_redirections = command_redirections;
+	new_command->is_valid = is_valid;
 	new_command->next = NULL;
 	return (new_command);
 }
@@ -52,7 +53,7 @@ void	ft_command_add_back(t_command **head, t_command *cmd)
 
 int	ft_commands_size(t_command *lst)
 {
-	int		i;
+	int			i;
 	t_command	*tmp;
 
 	tmp = lst;
@@ -65,16 +66,16 @@ int	ft_commands_size(t_command *lst)
 	return (i);
 }
 
-t_redir *generate_cmd_redirs(int type, char *file_name)
+t_redir	*generate_cmd_redirs(int type, char *file_name)
 {
-    t_redir *new;
+	t_redir	*new;
 
-    new = my_alloc(sizeof(t_redir));
-    new->token = type;
-    new->file = file_name;
+	new = my_alloc(sizeof(t_redir));
+	new->token = type;
+	new->file = file_name;
 	new->is_expand = 1;
 	new->next = 0;
-    return new;
+	return (new);
 }
 
 t_redir	*ft_last_redir(t_redir *lst)
@@ -99,4 +100,3 @@ void	ft_redir_add_back(t_redir **head, t_redir *cmd)
 	else
 		*head = cmd;
 }
-

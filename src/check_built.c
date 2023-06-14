@@ -68,7 +68,7 @@ int	built_check02(t_command *cm, int i)
 int	check_for_built_in(t_command *cm, int i)
 {
 	if (!cm->command_args)
-		return 0;
+		return (0);
 	if (built_check01(cm, i))
 		return (1);
 	if (built_check02(cm, i))

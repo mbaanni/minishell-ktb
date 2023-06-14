@@ -15,8 +15,8 @@ OSRC += $(addprefix $(OBJ_DIR), $(LEX_SRC:.c=.o))
 
 INCLUDES= -I includes
 
-READ_LINE = -lreadline -L ${HOME}/homebrew/opt/readline/lib -I${HOME}/homebrew/opt/readline/include
-#READ_LINE = -lreadline -L ${HOME}/brew/homebrew/opt/readline/lib -I${HOME}/brew/homebrew/opt/readline/include
+READ_LINE = -lreadline -L ${HOME}/homebrew/opt/readline/lib -I ${HOME}/homebrew/opt/readline/include
+
 
 all : $(NAME)
 
@@ -24,9 +24,9 @@ $(NAME) : $(OSRC)
 	@make -C libft > /dev/null
 	@$(CC) $(FLAG) $(READ_LINE) $(INCLUDES)  $^ src/main.c libft/libft.a -o $(NAME)
 
-$(OBJ_DIR)%.o: $(SRC_DIR)%.c includes/minishell.h
+$(OBJ_DIR)%.o: $(SRC_DIR)%.c includes/minishell.h 
 	@mkdir -p $(OBJ_DIR)
-	@$(CC) -Wall -Wextra -Werror -c $< -o $@
+	@$(CC) -Wall -Wextra -Werror  -c $< -o $@
 
 $(OBJ_DIR)%.o: $(LEX_DIR)%.c includes/minishell.h
 	@mkdir -p $(OBJ_DIR)

@@ -27,9 +27,9 @@ char	*ft_getenv(char *str)
 	return (0);
 }
 
-void	ft_pwd()
+void	ft_pwd(void)
 {
-	char *str;
+	char	*str;
 
 	str = 0;
 	str = getcwd(0, 0);
@@ -39,7 +39,7 @@ void	ft_pwd()
 	general->exit_status = 0;
 }
 
-void	ft_env()
+void	ft_env(void)
 {
 	t_env	*ptr;
 
@@ -74,8 +74,9 @@ int	exit_atoi(char *str)
 			res = res * 10 + (str[i] - 48);
 		else
 		{
-			ft_fdprintf(2, "minishell: exit: %s: numeric argument required\n", str);
-			exit (255);
+			ft_fdprintf(2, "minishell: exit: %s: numeric argument required\n",
+					str);
+			exit(255);
 		}
 		i++;
 	}

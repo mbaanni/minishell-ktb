@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../includes/minishell.h"
+#include "../includes/minishell.h"
 
 int	check_for_n(t_command *cmds, int *i)
 {
@@ -22,7 +22,7 @@ int	check_for_n(t_command *cmds, int *i)
 	{
 		if (cmds->command_args[*i][0] != '-')
 			break ;
-    	while (cmds->command_args[*i][k])
+		while (cmds->command_args[*i][k])
 		{
 			if (cmds->command_args[*i][k] != 'n')
 			{
@@ -34,23 +34,23 @@ int	check_for_n(t_command *cmds, int *i)
 		(*i)++;
 	}
 	if (*i == 1)
-			return (1);
+		return (1);
 	return (0);
 }
 void	ft_echo(t_command *cmds)
 {
-		int nlflag;
-		int	i;
+	int nlflag;
+	int i;
 
-		nlflag = check_for_n(cmds, &i);
-		while (cmds->command_args[i])
-		{
-			printf("%s",cmds->command_args[i]);
-			i++;
-			if (cmds->command_args[i])
-				printf(" ");
-		}
-		if (nlflag)
-			printf("\n");
-		general->exit_status = 0;
+	nlflag = check_for_n(cmds, &i);
+	while (cmds->command_args[i])
+	{
+		printf("%s", cmds->command_args[i]);
+		i++;
+		if (cmds->command_args[i])
+			printf(" ");
+	}
+	if (nlflag)
+		printf("\n");
+	general->exit_status = 0;
 }

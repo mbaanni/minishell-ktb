@@ -12,7 +12,6 @@
 
 #include "../includes/minishell.h"
 
-
 t_env	*ft_last_env(t_env *lst)
 {
 	while (lst->next)
@@ -27,7 +26,7 @@ t_env	*ft_last_env(t_env *lst)
 void	ft_env_add_back(t_env **head, t_env *evirement)
 {
 	t_env	*tmp;
-	
+
 	if (*head)
 	{
 		tmp = ft_last_env(*head);
@@ -74,20 +73,20 @@ char	*ft_strchr_data(char *str)
 
 t_env	*creat_env(char **ev)
 {
-    int i;
-    t_env   *head;
-    t_env   *tmp;
+	int		i;
+	t_env	*head;
+	t_env	*tmp;
 
-    i = -1;
+	i = -1;
 	head = 0;
-    while (ev[++i])
-    {
-    	tmp = my_alloc(sizeof(t_env));
-        tmp->id = ft_substr(ev[i], 0, index_signe(ev[i]));
-        tmp->data = ft_strchr_data(ev[i]);
+	while (ev[++i])
+	{
+		tmp = my_alloc(sizeof(t_env));
+		tmp->id = ft_substr(ev[i], 0, index_signe(ev[i]));
+		tmp->data = ft_strchr_data(ev[i]);
 		tmp->i = 1;
 		tmp->next = 0;
-        ft_env_add_back(&head, tmp);
-    }
+		ft_env_add_back(&head, tmp);
+	}
 	return (head);
 }
