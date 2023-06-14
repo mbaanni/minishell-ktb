@@ -6,7 +6,7 @@
 /*   By: mtaib <mtaib@student.1337.ma>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 19:35:50 by mtaib             #+#    #+#             */
-/*   Updated: 2023/06/13 12:53:20 by mtaib            ###   ########.fr       */
+/*   Updated: 2023/06/14 15:58:56 by mtaib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,8 @@ int	parse_it(char *str)
 		c = str[i++];
 		while (str[i] && str[i] != c)
 		{
-			if (c == '"' && str[i] == '$' && (str[i + 1] == '_' || str[i
-				+ 1] == '?' // added ?
-												|| ft_isalpha(str[i + 1])))
+			if (c == '"' && str[i] == '$' && (str[i + 1] == '_' || str[i + 1] == '?' // added ?
+				|| ft_isalpha(str[i + 1])))
 				return (1);
 			i++;
 		}
@@ -108,10 +107,8 @@ void	tokenize_lexims(t_lexim *lexims)
 		lexims->token = RDIROUT;
 	else if (lexims->content[0] == '<' && ft_strlen(lexims->content) == 2)
 		lexims->token = HERE_DOC;
-	else if (lexims->content[0] == '$' && (lexims->content[1] == '_'
-				|| lexims->content[1] == '?' //added $? to env
-											|| ft_isalpha(lexims->content[1])
-												|| ft_isdigit(lexims->content[1])))
+	else if (lexims->content[0] == '$' && (lexims->content[1] == '_' || lexims->content[1] == '?' //added $? to env
+				|| ft_isalpha(lexims->content[1]) || ft_isdigit(lexims->content[1])))
 		lexims->token = ENV;
 	else if (lexims->content[0] == ' ')
 		lexims->token = SPACES;
@@ -124,7 +121,7 @@ void	tokenize_lexims(t_lexim *lexims)
 	}
 }
 
-void	tokenize_elements(t_lexim *lexims)
+void		tokenize_elements(t_lexim *lexims)
 {
 	t_lexim	*tmp;
 	int		i;

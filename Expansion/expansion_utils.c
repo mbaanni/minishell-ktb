@@ -3,18 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   expansion_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbaanni <mbaanni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mtaib <mtaib@student.1337.ma>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 18:18:30 by mtaib             #+#    #+#             */
-/*   Updated: 2023/06/14 21:53:47 by mbaanni          ###   ########.fr       */
+/*   Updated: 2023/06/12 15:11:41 by mtaib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+
 char	*find_in_env(char *str, int len)
 {
-	t_env	*env;
+	t_env *env;
 
 	env = g_grl->env_head;
 	while (env)
@@ -39,7 +40,7 @@ int	lent_identifier(char *str)
 	if (!ft_isalpha(str[i]) && str[i] != '_')
 		return (i);
 	i = 1;
-	while (str[i] && str[i] != '=' && str[i] != ' ' && str[i] != '\t')
+	while (str[i] && str[i] != '='  && str[i] != ' ' && str[i] != '\t')
 	{
 		if (!ft_isdigit(str[i]) && !ft_isalpha(str[i]) && str[i] != '_')
 			return (i);
@@ -54,22 +55,20 @@ char	*expand_var(char *str)
 	int		j;
 	char	*exp;
 	char	*tmp;
-	int		t_state;
+	int		state;
 
-	t_state = 0;
+	state = 0;
 	exp = 0;
 	i = -1;
 	if (!str)
 		return (0);
 	while (str[++i])
 	{
-		if (str[i] == '"' || (str[i] == '$' && i > 0 && str[i - 1] && str[i
-			- 1] != '\'') || (i == 0 && str[i] == '$') || (str[i] && str[i + 1]
-			&& str[i] == '$' && str[i + 1] == '?'))
-			t_state = 1;
-		if (/*t_state &&*/ str[i + 1] && str[i] == '$' && (str[i + 1] == '?'
-				|| ft_isalpha(str[i + 1]) || str[i + 1] == '_'
-				|| ft_isdigit(str[i + 1])))
+		if (str[i] == '"' 
+				|| (str[i] == '$' && i > 0 && str[i-1] && str[i-1] != '\'') 
+				|| (i == 0 && str[i] == '$') || (str[i] && str[i + 1] && str[i] == '$' && str[i + 1 ] == '?'))	
+			state = 1;
+		if (/*state &&*/ str[i + 1] && str[i] == '$' && (str[i + 1] == '?' || ft_isalpha(str[i + 1]) || str[i + 1] == '_' || ft_isdigit(str[i + 1])))
 		{
 			if (str[i + 1] == '?')
 			{
@@ -91,9 +90,9 @@ char	*expand_var(char *str)
 				i--;
 			++i;
 			while (str[i] && str[i] != '$' && str[i] != '"')
-				i++;
+			 	 i++;
 			if (str[i] == '"')
-				t_state = 0;
+				state = 0;
 			if (str[i] == '$')
 				i--;
 		}

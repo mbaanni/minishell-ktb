@@ -6,7 +6,7 @@
 /*   By: mbaanni <mbaanni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 09:37:04 by mtaib             #+#    #+#             */
-/*   Updated: 2023/06/14 20:25:22 by mbaanni          ###   ########.fr       */
+/*   Updated: 2023/06/14 16:37:43 by mtaib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,7 +223,7 @@ t_command	*convert_args(t_cmd *cmds)
 	tmp = cmds;	
 	commands = NULL;
 	i = 0;
-	/*while (i < general->command_count)
+	/*while (i < g_grl->command_count)
 	{
 		while (cmds[i].args)
 		{
