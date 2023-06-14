@@ -13,24 +13,7 @@
 #include "../includes/minishell.h"
 #include "../libft/get_next_line.h"
 
-t_general	*general;
-
-char	*ft_trime_side(char *str)
-{
-	char	*new;
-	int		i;
-	int		j;
-
-	i = 0;
-	new = 0;
-	j = ft_strlen(str);
-	while (str[i] && (str[i] == '	' || str[i] == ' '))
-		i++;
-	while (j > 0 && (str[j - 1] == '	' || str[j - 1] == ' '))
-		j--;
-	new = ft_substr(str, i, j - i);
-	return (new);
-}
+t_general	*g_grl;
 
 void	signal_to_take(void)
 {
@@ -47,18 +30,18 @@ void	init_general(char **env)
 {
 	struct termios	terminal;
 
-	general = my_alloc(sizeof(t_general));
-	if (!general)
+	g_grl = my_alloc(sizeof(t_general));
+	if (!g_grl)
 		exit (1);
-	general->sig = 0;
+	g_grl->sig = 0;
 	tcgetattr(0, &terminal);
-	general->old_c_lflag = terminal.c_lflag;
-	general->_terminal = terminal;
-	general->ev = env;
-	general->env_head = creat_env(env);
+	g_grl->old_c_lflag = terminal.c_lflag;
+	g_grl->_terminal = terminal;
+	g_grl->ev = env;
+	g_grl->env_head = creat_env(env);
 }
 
-char	*readstring()
+char	*readstring(void)
 {
 	char	*str;
 
@@ -71,16 +54,17 @@ char	*readstring()
 		str = ft_strtrim(get_next_line(0), "\n");
 	if (!str)
 	{
-		general->_terminal.c_lflag = general->old_c_lflag;
-		tcsetattr(0, TCSANOW, &general->_terminal);
-		custom_exit(general->exit_status);
+		g_grl->_terminal.c_lflag = g_grl->old_c_lflag;
+		tcsetattr(0, TCSANOW, &g_grl->_terminal);
+		custom_exit(g_grl->exit_status);
 	}
 	return (str);
 }
 
 void	start_pr_ex(char *str)
 {
-	t_lexim			*lexims;
+	t_lexim	*lexims;
+
 	if (str && str[0])
 	{
 		add_history(str);
@@ -106,11 +90,11 @@ int	main(int ac, char **av, char **ev)
 	signal_to_take();
 	while (1)
 	{
-		general->_XH = -1;
-		general->_terminal.c_lflag &= ~ECHOCTL;
-		tcsetattr(0, TCSANOW, &general->_terminal);
-		general->sig = 0;
-		general->_XH = -1;
+		g_grl->_XH = -1;
+		g_grl->_terminal.c_lflag &= ~ECHOCTL;
+		tcsetattr(0, TCSANOW, &g_grl->_terminal);
+		g_grl->sig = 0;
+		g_grl->_XH = -1;
 		str = readstring();
 		str = ft_trime_side(str);
 		start_pr_ex(str);

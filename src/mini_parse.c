@@ -13,6 +13,23 @@
 #include "../includes/minishell.h"
 #include <stdlib.h>
 
+char	*ft_trime_side(char *str)
+{
+	char	*new;
+	int		i;
+	int		j;
+
+	i = 0;
+	new = 0;
+	j = ft_strlen(str);
+	while (str[i] && (str[i] == '	' || str[i] == ' '))
+		i++;
+	while (j > 0 && (str[j - 1] == '	' || str[j - 1] == ' '))
+		j--;
+	new = ft_substr(str, i, j - i);
+	return (new);
+}
+
 char	*get_path(char *argu)
 {
 	char	*path_full;
@@ -46,7 +63,7 @@ void	find_path(void)
 	int			i;
 
 	i = 0;
-	ptr = general->command_head;
+	ptr = g_grl->command_head;
 	while (ptr)
 	{
 		if (!ptr->command_args)

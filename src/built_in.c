@@ -6,7 +6,7 @@
 /*   By: mbaanni <mbaanni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 15:37:21 by mbaanni           #+#    #+#             */
-/*   Updated: 2023/06/08 20:54:56 by mbaanni          ###   ########.fr       */
+/*   Updated: 2023/06/14 18:31:31 by mbaanni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*ft_getenv(char *str)
 {
 	t_env	*env;
 
-	env = general->env_head;
+	env = g_grl->env_head;
 	while (env)
 	{
 		if (!ft_strncmp(env->id, str, -1))
@@ -35,22 +35,22 @@ void	ft_pwd(void)
 	str = getcwd(0, 0);
 	if (!str)
 		str = getenv("PWD");
-	printf("%s\n", str);
-	general->exit_status = 0;
+	ft_fdprintf(1, "%s\n", str);
+	g_grl->exit_status = 0;
 }
 
 void	ft_env(void)
 {
 	t_env	*ptr;
 
-	ptr = general->env_head;
+	ptr = g_grl->env_head;
 	while (ptr)
 	{
 		if (ptr->i == 1)
-			printf("%s=%s\n", ptr->id, ptr->data);
+			ft_fdprintf(1, "%s=%s\n", ptr->id, ptr->data);
 		ptr = ptr->next;
 	}
-	general->exit_status = 0;
+	g_grl->exit_status = 0;
 }
 
 int	exit_atoi(char *str)
@@ -76,7 +76,7 @@ int	exit_atoi(char *str)
 		{
 			ft_fdprintf(2, "minishell: exit: %s: numeric argument required\n",
 					str);
-			exit(255);
+			custom_exit(255);
 		}
 		i++;
 	}
@@ -86,7 +86,7 @@ int	exit_atoi(char *str)
 void	ft_exit(t_command *cmd)
 {
 	if (!cmd->command_args[1])
-		custom_exit(general->exit_status);
+		custom_exit(g_grl->exit_status);
 	if (cmd->command_args[2])
 	{
 		exit_atoi(cmd->command_args[1]);

@@ -6,7 +6,7 @@
 /*   By: mbaanni <mbaanni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 18:26:32 by mbaanni           #+#    #+#             */
-/*   Updated: 2023/06/10 14:58:21 by mtaib            ###   ########.fr       */
+/*   Updated: 2023/06/14 19:41:53 by mbaanni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,59 +14,6 @@
 #include <stdio.h>
 #include <sys/fcntl.h>
 #include <unistd.h>
-
-int	redirection_handler(t_command *commands, int fdin, int fdout)
-{
-	int		fd;
-	int		oflags;
-	t_redir	*redir;
-
-	redir = commands->command_redirections;
-	while (redir)
-	{
-		fd = -1;
-		oflags = 0;
-		if (redir->token == RDIRIN)
-			fd = open(redir->file, O_RDONLY);
-		else if (redir->token == RDIROUT)
-			oflags = O_WRONLY | O_TRUNC | O_CREAT;
-		else if (redir->token == APPEND)
-			oflags = O_RDWR | O_APPEND | O_CREAT;
-		if (oflags && redir->token != RDIRIN)
-			fd = open(redir->file, oflags, 0644);
-		if (redir->is_expand == 2)
-		{
-			ft_fdprintf(2, "minishell: %s: ambiguous redirect\n", redir->file);
-			general->exit_status = 1;
-			return (1);
-		}
-		if (access(redir->file, F_OK) && redir->token != HERE_DOC)
-		{
-			ft_fdprintf(2, "minishell: %s: No such file or directory\n",
-					redir->file);
-			general->exit_status = 1;
-			return (1);
-		}
-		if (fd == -1 && redir->token != HERE_DOC)
-		{
-			ft_fdprintf(2, "minishell: %s: Permission denied\n", redir->file);
-			general->exit_status = 1;
-			return (1);
-		}
-		if (redir->token == RDIRIN)
-		{
-			dup2(fd, fdin);
-			close(fd);
-		}
-		if (oflags && (redir->token == RDIROUT || redir->token == APPEND))
-		{
-			dup2(fd, fdout);
-			close(fd);
-		}
-		redir = redir->next;
-	}
-	return (0);
-}
 
 void	check_file_exist(char *str)
 {
@@ -77,119 +24,159 @@ void	check_file_exist(char *str)
 	}
 	if (access(str, F_OK))
 	{
-		if (ft_strchr(str, '/'))
-			ft_fdprintf(2, "minishell: No such file or directory\n");
+		if (ft_strchr(str, '/') || !ft_getenv("PATH"))
+			ft_fdprintf(2, "minishell: %s: No such file or directory\n", str);
 		else
-			ft_fdprintf(2, "minishell: command not found\n");
+			ft_fdprintf(2, "minishell: %s: command not found\n", str);
 		exit(127);
 	}
+}
+
+int	one_cmd(t_command	*commands)
+{
+	int	fd;
+	int	fdout;
+
+	if (commands->command_path && check_for_built_in(commands, 0)
+		&& ft_strncmp("echo", commands->command_path, -1))
+	{
+		fd = dup(STDIN_FILENO);
+		fdout = dup(STDOUT_FILENO);
+		if (redirection_handler(commands, fd, fdout))
+			return (1);
+		check_for_built_in(commands, 1);
+		//dup2(fd, 0);
+		close(fd);
+		//dup2(fdout, 1);
+		close(fdout);
+		return (1);
+	}
+	return (0);
+}
+
+void	child_work1(t_command	*commands)
+{
+	if (redirection_handler(commands, 0, 1))
+		exit(1);
+	if (!commands->command_args)
+		exit(0);
+	if (check_for_built_in(commands, 1))
+		exit(g_grl->exit_status);
+}
+
+void	child_work(int fd, int i, t_command *commands, char **new_env)
+{
+	g_grl->sig = 1;
+	g_grl->_terminal.c_lflag = g_grl->old_c_lflag;
+	tcsetattr(0, TCSANOW, &g_grl->_terminal);
+	if (fd != -1)
+	{
+		dup2(fd, 0);
+		close(fd);
+	}
+	else if (i > 0)
+	{
+		dup2(g_grl->prev[0], 0);
+		close(g_grl->prev[0]);
+		close(g_grl->prev[1]);
+	}
+	if (i < g_grl->command_count - 1)
+	{
+		dup2(g_grl->next[1], 1);
+		close(g_grl->next[0]);
+		close(g_grl->next[1]);
+	}
+	child_work1(commands);
+	check_file_exist(commands->command_path);
+	execve(commands->command_path, commands->command_args, new_env);
+	perror(0);
+	exit(1);
+}
+
+int	unseted_path(char *str)
+{
+	if (!ft_getenv("PATH") && ft_strncmp("echo", str, 1))
+	{
+		ft_fdprintf(2, "minishell: %s: No such file or directory\n");
+		g_grl->exit_status = 127;
+		return (1);
+	}
+	return (0);
+}
+
+void	parent_work(int i)
+{
+	if (i > 0)
+	{
+		close(g_grl->prev[0]);
+		close(g_grl->prev[1]);
+	}
+	if (i < g_grl->command_count - 1)
+	{
+		g_grl->prev[0] = g_grl->next[0];
+		g_grl->prev[1] = g_grl->next[1];
+	}
+}
+
+void	wait_for_chiled(int *pid)
+{
+	int i;
+	int	stats;
+
+	stats = 0;
+	i = -1;
+	while (++i < g_grl->command_count)
+	{
+		waitpid(pid[i], &stats, 0);
+		if (g_grl->sig != 3)
+			g_grl->exit_status = stats >> 8;
+	}
+}
+
+int	set_pipe_heredoc(int *fd, int i, t_redir *redir)
+{
+	if (i < g_grl->command_count - 1)
+		if (pipe(g_grl->next) == -1)
+			return (1);
+	*fd = here_doc(redir);
+	if (g_grl->_XH == -2)
+	{
+		g_grl->_XH = -2;
+		g_grl->exit_status = 1;
+		return (1);
+	}
+	return (0);
 }
 
 void	executing_phase(void)
 {
 	t_command	*commands;
-	int			stats;
 	int			i;
 	int			fd;
-	int			fdout;
 	int			*pid;
 	char		**new_env;
 
 	i = -1;
-	stats = 0;
-	commands = general->command_head;
-	pid = my_alloc(sizeof(int) * general->command_count);
-	if (general->command_count == 1)
-	{
-		if (commands->command_path && ft_strncmp("echo", commands->command_path,
-				-1) && ft_strncmp("pwd", commands->command_path, -1)
-			&& check_for_built_in(commands, 0))
-		{
-			fd = dup(STDIN_FILENO);
-			fdout = dup(STDOUT_FILENO);
-			if (redirection_handler(commands, 0, 1))
-				return ;
-			check_for_built_in(commands, 1);
-			dup2(fd, 0);
-			close(fd);
-			dup2(fdout, 1);
-			close(fdout);
+	commands = g_grl->command_head;
+	pid = my_alloc(sizeof(int) * g_grl->command_count);
+	if (g_grl->command_count == 1)
+		if (one_cmd(commands))
 			return ;
-		}
-	}
-	if (!ft_getenv("PATH"))
-	{
-		ft_fdprintf(2, "minishell: No such file or directory\n");
-		general->exit_status = 127;
+	if (unseted_path(commands->command_path))
 		return ;
-	}
-	while (++i < general->command_count)
+	while (++i < g_grl->command_count)
 	{
-		fd = -1;
 		new_env = set_new_env();
-		if (i < general->command_count - 1)
-			pipe(general->next);
-		fd = here_doc(commands->command_redirections);
-		if (general->_XH == -2)
-		{
-			general->_XH = -2;
-			general->exit_status = 1;
+		if (set_pipe_heredoc(&fd, i, commands->command_redirections))
 			return ;
-		}
-		general->sig = 1;
-		general->_terminal.c_lflag = general->old_c_lflag;
-		tcsetattr(0, TCSANOW, &general->_terminal);
 		pid[i] = fork();
+		if (pid[i] == -1)
+			return ;
 		if (pid[i] == 0)
-		{
-			if (fd != -1)
-			{
-				dup2(fd, 0);
-				close(fd);
-			}
-			else if (i > 0)
-			{
-				dup2(general->prev[0], 0);
-				close(general->prev[0]);
-				close(general->prev[1]);
-			}
-			if (i < general->command_count - 1)
-			{
-				dup2(general->next[1], 1);
-				close(general->next[0]);
-				close(general->next[1]);
-			}
-			if (redirection_handler(commands, 0, 1))
-				exit(1);
-			if (!commands->command_args)
-				exit(0);
-			if (check_for_built_in(commands, 1))
-				exit(general->exit_status);
-			check_file_exist(commands->command_path);
-			execve(commands->command_path, commands->command_args, new_env);
-			perror(0);
-			exit(1);
-		}
+			child_work(fd, i, commands, new_env);
 		else
-		{
-			if (i > 0)
-			{
-				close(general->prev[0]);
-				close(general->prev[1]);
-			}
-			if (i < general->command_count - 1)
-			{
-				general->prev[0] = general->next[0];
-				general->prev[1] = general->next[1];
-			}
-		}
+			parent_work(i);
 		commands = commands->next;
 	}
-	i = -1;
-	while (++i < general->command_count)
-	{
-		waitpid(pid[i], &stats, 0);
-		if (general->sig != 3)
-			general->exit_status = stats >> 8;
-	}
+	wait_for_chiled(pid);
 }

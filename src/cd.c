@@ -17,13 +17,13 @@ void	change_env_exp(char *str)
 	char	*old;
 	t_env	*exp;
 
-	exp = general->env_head;
+	exp = g_grl->env_head;
 	old = getcwd(0, 0);
 	old = ft_strjoin("=", old);
 	if (chdir(str) == -1)
 	{
 		ft_fdprintf(2, "minishell: cd: %s: Not a directory\n", str);
-		general->exit_status = 1;
+		g_grl->exit_status = 1;
 		return ;
 	}
 	str = getcwd(0, 0);
@@ -41,7 +41,7 @@ void	change_env_exp(char *str)
 void	print_error(char *str)
 {
 	ft_fdprintf(2, "minishell: cd: %s: No such file or directory\n", str);
-	general->exit_status = 1;
+	g_grl->exit_status = 1;
 }
 
 void	ft_cd(t_command *cmds)
@@ -49,14 +49,14 @@ void	ft_cd(t_command *cmds)
 	char	*str;
 
 	str = 0;
-	general->exit_status = 0;
+	g_grl->exit_status = 0;
 	if (!cmds->command_args[1])
 	{
 		str = ft_getenv("HOME");
 		if (!str)
 		{
 			ft_fdprintf(2, "minishell: cd: HOME not set\n");
-			general->exit_status = 1;
+			g_grl->exit_status = 1;
 		}
 		else if (!access(str, F_OK))
 			change_env_exp(str);

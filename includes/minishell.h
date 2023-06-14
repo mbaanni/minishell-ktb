@@ -116,7 +116,7 @@ typedef struct s_general{
 	int				next[2];
 }	t_general;
 
-extern t_general *general;
+extern t_general *g_grl;
 //##########################################################
 //							ENV_FUNC					   #
 //##########################################################
@@ -126,7 +126,13 @@ char		**set_new_env();
 char		*ft_getenv(char *str);
 
 //###########################################################
-
+//						heredoc								#
+//###########################################################
+int			lent_identifiers(char *str);
+char		*find_in_envs(char *str, int len);
+int			ft_lstrcmp(char *s1, char *s2);
+int			set_file(char *str);
+//###########################################################################
 t_command	*ft_new_command(char	*command_path, char **command_args, t_redir *command_redirections, int is_valid);
 t_redir		*generate_cmd_redirs(int type, char *file_name);
 t_redir		*ft_last_redir(t_redir *lst);
@@ -138,8 +144,10 @@ void		find_path();
 char		*ft_strchr_data(char *str);
 int			here_doc(t_redir *redir);
 void		executing_phase();
+void		add_new_env(int i, char **args);
 int			redirection_handler(t_command *commands, int fdin, int fdout);
 int			index_signe(char *str);
+char		*ft_trime_side(char *str);
 t_env		*ft_last_env(t_env *lst);
 int			check_syntax(char *str);
 void		handle_signal(int sig);

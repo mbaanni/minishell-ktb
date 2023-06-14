@@ -6,11 +6,28 @@
 /*   By: mbaanni <mbaanni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 16:20:51 by mbaanni           #+#    #+#             */
-/*   Updated: 2023/06/08 11:12:14 by mbaanni          ###   ########.fr       */
+/*   Updated: 2023/06/14 13:00:53 by mbaanni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	add_new_env(int i, char **args)
+{
+	t_env	*tmp;
+
+	tmp = 0;
+	tmp = my_alloc(sizeof(t_env));
+	tmp->id = ft_substr(args[i], 0,
+			index_signe(args[i]));
+	tmp->data = ft_strchr_data(args[i]);
+	if (tmp->data)
+		tmp->i = 1;
+	else
+		tmp->i = 0;
+	tmp->next = 0;
+	ft_env_add_back(&g_grl->env_head, tmp);
+}
 
 int	find_char(char *str, char c)
 {
@@ -36,7 +53,7 @@ void	unset_env(t_env *envp, char *cmd)
 		if (!ft_strncmp(envp->id, cmd, -1))
 		{
 			if (tmp == envp)
-				general->env_head = general->env_head->next;
+				g_grl->env_head = g_grl->env_head->next;
 			else
 				tmp->next = envp->next;
 		}
@@ -53,14 +70,14 @@ void	ft_unset(t_command *cmd)
 	i = 0;
 	while (cmd->command_args[++i])
 	{
-		envp = general->env_head;
+		envp = g_grl->env_head;
 		if (!(ft_isalpha(cmd->command_args[i][0])
-				|| cmd->command_args[i][0] == '_')
+			|| cmd->command_args[i][0] == '_')
 			|| find_char(cmd->command_args[i], '='))
 			ft_fdprintf(2, "Minishell: unset: `%s': not a valid identifier\n",
-					cmd->command_args[i]);
+				cmd->command_args[i]);
 		else
 			unset_env(envp, cmd->command_args[i]);
 	}
-	general->exit_status = 0;
+	g_grl->exit_status = 0;
 }

@@ -18,14 +18,14 @@ int	error_cout(int double_cout, int signle_cout)
 	{
 		ft_fdprintf(2,
 				"minishell: unexpected EOF while looking for matching\n");
-		general->exit_status = 1;
+		g_grl->exit_status = 1;
 		return (1);
 	}
 	if (signle_cout % 2)
 	{
 		ft_fdprintf(2,
 				"minishell: unexpected EOF while looking for matching\n");
-		general->exit_status = 1;
+		g_grl->exit_status = 1;
 		return (1);
 	}
 	return (0);
@@ -46,7 +46,7 @@ int	check_syntax(char *str)
 		{
 			ft_fdprintf(2,
 					"minishell: syntax error near unexpected token `|'\n");
-			general->exit_status = 258;
+			g_grl->exit_status = 258;
 			return (1);
 		}
 		if (str[i] == '"')
@@ -56,7 +56,7 @@ int	check_syntax(char *str)
 	}
 	if (error_cout(double_cout, signle_cout))
 	{
-		general->exit_status = 258;
+		g_grl->exit_status = 258;
 		return (1);
 	}
 	return (0);

@@ -86,7 +86,7 @@ int	check_token_syntax(t_lexim *lexim)
 			token = 0;
 		if (take_token(&token, lexim))
 		{
-			general->exit_status = 258;
+			g_grl->exit_status = 258;
 			return (1);
 		}
 		if (token)
@@ -100,7 +100,7 @@ int	check_token_syntax(t_lexim *lexim)
 				ft_fdprintf(2,
 						"minishell: syntax error near unexpected token `%c'\n",
 						lexim->next->token);
-				general->exit_status = 258;
+				g_grl->exit_status = 258;
 				return (1);
 			}
 		}
@@ -108,7 +108,7 @@ int	check_token_syntax(t_lexim *lexim)
 		{
 			ft_fdprintf(2,
 					"minishell: syntax error near unexpected token `newline'\n");
-			general->exit_status = 258;
+			g_grl->exit_status = 258;
 			return (1);
 		}
 		lexim = lexim->next;

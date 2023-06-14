@@ -120,7 +120,7 @@ t_cmd	*ft_expand(t_cmd *cmds, int nb_cmds)
 	char	*str;
 
 	i = 0;
-	envs = general->env_head;
+	envs = g_grl->env_head;
 	tmp = cmds;
 	while (i < nb_cmds)
 	{

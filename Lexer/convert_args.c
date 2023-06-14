@@ -239,7 +239,7 @@ t_command	*convert_args(t_cmd *cmds)
 		cmds[i].redirs = (cmds[i].redirs)->next;
 	}
 	exit(0);*/
-	while (i < general->command_count && tmp[i].args)
+	while (i < g_grl->command_count && tmp[i].args)
 	{
 		tmp_lexim = tmp[i].args;
 		while (tmp_lexim)
@@ -259,7 +259,7 @@ t_command	*convert_args(t_cmd *cmds)
 		i++;
 	}
 	i = 0;
-	while (i < general->command_count && tmp[i].redirs)
+	while (i < g_grl->command_count && tmp[i].redirs)
 	{
 		tmp_redir = tmp[i].redirs;
 		while (tmp_redir)
@@ -299,14 +299,14 @@ t_command	*convert_args(t_cmd *cmds)
 	}
 	exit(0);*/
 	i = 0;
-	while (i < general->command_count)
+	while (i < g_grl->command_count)
 	{
 		cmdadd_back(&commands, new_cmd(NULL));
 		i++;
 	}
 	tmp_cmd = commands;
 	i = 0;
-	while (i < general->command_count && cmds[i].args)
+	while (i < g_grl->command_count && cmds[i].args)
 	{
 		args = NULL;
 		while (cmds[i].args)
@@ -332,7 +332,7 @@ t_command	*convert_args(t_cmd *cmds)
 	}
 	tmp_cmd = commands;
 	i = 0;
-	while (i < general->command_count && tmp_cmd)
+	while (i < g_grl->command_count && tmp_cmd)
 	{
 		tmp_cmd->command_redirections = cmds[i].redirs;
 		if (tmp_cmd->next)
@@ -355,6 +355,6 @@ t_command	*convert_args(t_cmd *cmds)
 		tmp_cmd = tmp_cmd->next;
 	}
 	exit(0);*/
-	general->command_head = commands;
+	g_grl->command_head = commands;
 	return (commands);
 }

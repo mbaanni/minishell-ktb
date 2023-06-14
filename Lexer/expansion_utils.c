@@ -17,7 +17,7 @@ char	*find_in_env(char *str, int len)
 {
 	t_env *env;
 
-	env = general->env_head;
+	env = g_grl->env_head;
 	while (env)
 	{
 		if (!ft_strncmp(env->id, str, len))
@@ -73,7 +73,7 @@ char	*expand_var(char *str)
 			if (str[i + 1] == '?')
 			{
 				j = 1;
-				exp = ft_itoa(general->exit_status);
+				exp = ft_itoa(g_grl->exit_status);
 			}
 			else
 			{

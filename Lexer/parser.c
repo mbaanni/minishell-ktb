@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtaib <mtaib@student.1337.ma>              +#+  +:+       +#+        */
+/*   By: mbaanni <mbaanni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 16:25:34 by mtaib             #+#    #+#             */
-/*   Updated: 2023/06/13 12:13:06 by mtaib            ###   ########.fr       */
+/*   Updated: 2023/06/14 16:10:45 by mbaanni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	print_parsing(t_cmd *cmds)
 	int	i;
 
 	i = 0;
-	while (i < general->command_count)
+	while (i < g_grl->command_count)
 	{
 		while (cmds[i].args)
 		{
@@ -140,7 +140,8 @@ t_lexim    *parse_redirections(t_lexim *lexims, t_redir **redirs)
         if (lexims->next->next && lexims->next->token == SPACES)
             tmp = lexims->next->next;
         redir_add_back((redirs), new_redir(lexims->token, NULL));
-        while (tmp && tmp->token != SPACES && tmp->token != PIPE)
+        while (tmp && tmp->token != SPACES && tmp->token != PIPE && tmp->token != RDIROUT && tmp->token != RDIRIN 
+                && tmp->token != HERE_DOC)
         {
             str = ft_strjoin(str, tmp->content);
             if (lexims->token == HERE_DOC && expand_it(str))
@@ -171,11 +172,11 @@ t_cmd	*parse_commands(t_lexim *lexims)
 
 	tmp = lexims;
 	i = -1;
-	general->command_count = n_cmds(lexims);
-	cmds = my_alloc(general->command_count * sizeof(t_cmd));
+	g_grl->command_count = n_cmds(lexims);
+	cmds = my_alloc(g_grl->command_count * sizeof(t_cmd));
 	if (!cmds)
 		return (NULL);
-	while(++i < general->command_count)
+	while(++i < g_grl->command_count)
 	{
 		while (lexims && lexims->token != PIPE)
 		{
@@ -194,7 +195,7 @@ t_cmd	*parse_commands(t_lexim *lexims)
 			lexims = lexims->next;	
 	}
 	//print_parsing(cmds);
-	ft_expand(cmds, general->command_count);
+	ft_expand(cmds, g_grl->command_count);
 	//exit(0);
 	convert_args(cmds);
 	return (cmds);

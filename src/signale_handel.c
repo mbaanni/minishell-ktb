@@ -15,16 +15,16 @@
 int sin_int()
 {
     write(1, "\n", 1);
-	if (general->_XH != -1)
+	if (g_grl->_XH != -1)
 	{
-		general->exit_status = 1;
-		close(general->_XH);
-		general->_XH = -2;
+		g_grl->exit_status = 1;
+		close(g_grl->_XH);
+		g_grl->_XH = -2;
 		return (1);
 	}
-	else if (!general->sig)
+	else if (!g_grl->sig)
 	{
-		general->exit_status = 1;
+		g_grl->exit_status = 1;
 		rl_on_new_line();
 		//rl_replace_line("", 0);
 		rl_redisplay();
@@ -41,13 +41,13 @@ void	handle_signal(int sig)
 	}
 	else if (sig == SIGQUIT)
 	{
-		if (general->sig)
+		if (g_grl->sig)
 			write(1, "Quit: 3\n", 8);
 		rl_redisplay();
 	}
-	if (general->sig)
+	if (g_grl->sig)
 	{
-		general->sig = 3;
-		general->exit_status = 128 + sig;
+		g_grl->sig = 3;
+		g_grl->exit_status = 128 + sig;
 	}
 }

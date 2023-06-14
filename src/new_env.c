@@ -32,7 +32,7 @@ char	**set_new_env(void)
 	int		i;
 
 	i = 0;
-	env = general->env_head;
+	env = g_grl->env_head;
 	new_env = my_alloc(sizeof(char *) * (list_env_size(env) + 1));
 	while (env)
 	{
