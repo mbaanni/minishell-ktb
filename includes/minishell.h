@@ -6,7 +6,7 @@
 /*   By: mbaanni <mbaanni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 20:27:54 by mbaanni           #+#    #+#             */
-/*   Updated: 2023/06/14 20:27:55 by mbaanni          ###   ########.fr       */
+/*   Updated: 2023/06/14 21:50:16 by mbaanni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 # include <dirent.h>
 # include <fcntl.h>
 # include <limits.h>
+# include <readline/history.h>
+# include <readline/readline.h>
 # include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -26,8 +28,6 @@
 # include <sys/wait.h>
 # include <termios.h>
 # include <unistd.h>
-# include <readline/history.h>
-# include <readline/readline.h>
 
 typedef enum toke_state
 {
@@ -167,6 +167,13 @@ void					handle_signal(int sig);
 int						check_for_built_in(t_command *cmd, int i);
 int						is_expand(char *str);
 t_lexim					*convert_to_lexims(char *str);
+int						ft_strcmps(char *s1, char *s2);
+void					check_file_exist(char *str);
+int						one_cmd(t_command *commands);
+void					child_work1(t_command *commands);
+void					child_work(int fd, int i, t_command *commands,
+							char **new_env);
+int						unseted_path(char *str);
 
 //####################################################################
 //#							built_in									#

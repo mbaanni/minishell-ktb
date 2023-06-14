@@ -6,7 +6,7 @@
 /*   By: mbaanni <mbaanni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 09:18:12 by mbaanni           #+#    #+#             */
-/*   Updated: 2023/06/14 20:22:26 by mbaanni          ###   ########.fr       */
+/*   Updated: 2023/06/14 21:18:06 by mbaanni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,13 @@ int	error_cout(int double_cout, int signle_cout)
 	return (0);
 }
 
+void	err_print(void)
+{
+	ft_fdprintf(2,
+		"minishell: syntax error near unexpected token `|'\n");
+	g_grl->exit_status = 258;
+}
+
 int	check_syntax(char *str)
 {
 	int	i;
@@ -45,9 +52,7 @@ int	check_syntax(char *str)
 		if ((str[i] == '|' && i == 0) || (i == ft_strlen(str) - 1
 				&& str[i] == '|'))
 		{
-			ft_fdprintf(2,
-				"minishell: syntax error near unexpected token `|'\n");
-			g_grl->exit_status = 258;
+			err_print();
 			return (1);
 		}
 		if (str[i] == '"')
@@ -56,9 +61,6 @@ int	check_syntax(char *str)
 			signle_cout++;
 	}
 	if (error_cout(double_cout, signle_cout))
-	{
-		g_grl->exit_status = 258;
-		return (1);
-	}
+		return (g_grl->exit_status = 258, 1);
 	return (0);
 }

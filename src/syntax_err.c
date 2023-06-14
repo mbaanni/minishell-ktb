@@ -6,31 +6,11 @@
 /*   By: mbaanni <mbaanni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 17:58:04 by mbaanni           #+#    #+#             */
-/*   Updated: 2023/06/14 20:20:12 by mbaanni          ###   ########.fr       */
+/*   Updated: 2023/06/14 21:49:09 by mbaanni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-int	ft_strcmps(char *s1, char *s2)
-{
-	int	i;
-
-	i = 0;
-	if (!s1)
-		return (0);
-	if (!s2)
-		return (0);
-	if (ft_strlen(s1) != ft_strlen(s2))
-		return (0);
-	while (s1[i] && s2[i])
-	{
-		if (s1[i] != s2[i])
-			return (0);
-		i++;
-	}
-	return (1);
-}
 
 void	open_heredoc(char *str)
 {
@@ -75,6 +55,30 @@ int	take_token(t_token *token, t_lexim *lexim)
 	return (0);
 }
 
+static int	syntax_error_msg(t_lexim *lexim)
+{
+	if (lexim->next && (lexim->next->token == PIPE
+			|| lexim->next->token == RDIRIN
+			|| lexim->next->token == RDIROUT
+			|| lexim->next->token == HERE_DOC
+			|| lexim->next->token == APPEND))
+	{
+		ft_fdprintf(2,
+			"minishell: syntax error near unexpected token `%c'\n",
+			lexim->next->token);
+		g_grl->exit_status = 258;
+		return (1);
+	}
+	return (0);
+}
+
+static void	print_error(void)
+{
+	ft_fdprintf(2,
+		"minishell: syntax error near unexpected token `newline'\n");
+	g_grl->exit_status = 258;
+}
+
 int	check_token_syntax(t_lexim *lexim)
 {
 	t_token	token;
@@ -91,24 +95,12 @@ int	check_token_syntax(t_lexim *lexim)
 		}
 		if (token)
 		{
-			if (lexim->next && (lexim->next->token == PIPE
-					|| lexim->next->token == RDIRIN
-					|| lexim->next->token == RDIROUT
-					|| lexim->next->token == HERE_DOC
-					|| lexim->next->token == APPEND))
-			{
-				ft_fdprintf(2,
-					"minishell: syntax error near unexpected token `%c'\n",
-					lexim->next->token);
-				g_grl->exit_status = 258;
+			if (syntax_error_msg(lexim))
 				return (1);
-			}
 		}
 		if (!lexim->next && token)
 		{
-			ft_fdprintf(2,
-				"minishell: syntax error near unexpected token `newline'\n");
-			g_grl->exit_status = 258;
+			print_error();
 			return (1);
 		}
 		lexim = lexim->next;
