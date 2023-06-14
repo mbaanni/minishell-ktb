@@ -6,7 +6,7 @@
 /*   By: mbaanni <mbaanni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 18:26:32 by mbaanni           #+#    #+#             */
-/*   Updated: 2023/06/14 21:47:51 by mbaanni          ###   ########.fr       */
+/*   Updated: 2023/06/14 21:54:17 by mbaanni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,9 @@ int	set_pipe_heredoc(int *fd, int i, t_redir *redir)
 		if (pipe(g_grl->next) == -1)
 			return (1);
 	*fd = here_doc(redir);
-	if (g_grl->_XH == -2)
+	if (g_grl->_hx == -2)
 	{
-		g_grl->_XH = -2;
+		g_grl->_hx = -2;
 		g_grl->exit_status = 1;
 		return (1);
 	}

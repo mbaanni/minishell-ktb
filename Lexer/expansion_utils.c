@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtaib <mtaib@student.1337.ma>              +#+  +:+       +#+        */
+/*   By: mbaanni <mbaanni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 18:18:30 by mtaib             #+#    #+#             */
-/*   Updated: 2023/06/12 15:11:41 by mtaib            ###   ########.fr       */
+/*   Updated: 2023/06/14 21:53:47 by mbaanni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,9 @@ char	*expand_var(char *str)
 	int		j;
 	char	*exp;
 	char	*tmp;
-	int		state;
+	int		t_state;
 
-	state = 0;
+	t_state = 0;
 	exp = 0;
 	i = -1;
 	if (!str)
@@ -66,8 +66,8 @@ char	*expand_var(char *str)
 		if (str[i] == '"' || (str[i] == '$' && i > 0 && str[i - 1] && str[i
 			- 1] != '\'') || (i == 0 && str[i] == '$') || (str[i] && str[i + 1]
 			&& str[i] == '$' && str[i + 1] == '?'))
-			state = 1;
-		if (/*state &&*/ str[i + 1] && str[i] == '$' && (str[i + 1] == '?'
+			t_state = 1;
+		if (/*t_state &&*/ str[i + 1] && str[i] == '$' && (str[i + 1] == '?'
 				|| ft_isalpha(str[i + 1]) || str[i + 1] == '_'
 				|| ft_isdigit(str[i + 1])))
 		{
@@ -93,7 +93,7 @@ char	*expand_var(char *str)
 			while (str[i] && str[i] != '$' && str[i] != '"')
 				i++;
 			if (str[i] == '"')
-				state = 0;
+				t_state = 0;
 			if (str[i] == '$')
 				i--;
 		}

@@ -6,7 +6,7 @@
 /*   By: mbaanni <mbaanni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 14:30:50 by mbaanni           #+#    #+#             */
-/*   Updated: 2023/06/14 20:01:52 by mbaanni          ###   ########.fr       */
+/*   Updated: 2023/06/14 21:54:17 by mbaanni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,10 +91,10 @@ int	main(int ac, char **av, char **ev)
 	while (1)
 	{
 		g_grl->sig = 0;
-		g_grl->_XH = -1;
+		g_grl->_hx = -1;
 		g_grl->_terminal.c_lflag &= ~ECHOCTL;
 		tcsetattr(0, TCSANOW, &g_grl->_terminal);
-		g_grl->_XH = -1;
+		g_grl->_hx = -1;
 		str = readstring();
 		str = ft_trime_side(str);
 		start_pr_ex(str);

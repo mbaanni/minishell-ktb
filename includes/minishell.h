@@ -6,7 +6,7 @@
 /*   By: mbaanni <mbaanni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 20:27:54 by mbaanni           #+#    #+#             */
-/*   Updated: 2023/06/14 21:50:16 by mbaanni          ###   ########.fr       */
+/*   Updated: 2023/06/14 21:54:39 by mbaanni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@
 # include <dirent.h>
 # include <fcntl.h>
 # include <limits.h>
-# include <readline/history.h>
-# include <readline/readline.h>
 # include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -28,13 +26,15 @@
 # include <sys/wait.h>
 # include <termios.h>
 # include <unistd.h>
+# include <readline/history.h>
+# include <readline/readline.h>
 
 typedef enum toke_state
 {
 	INDQUOTE,
 	INSQUOTE,
 	GENERAL,
-}						state;
+}						t_state;
 
 typedef enum s_token
 {
@@ -53,7 +53,7 @@ typedef struct s_lexim
 {
 	char				*content;
 	t_token				token;
-	state				lexim_state;
+	t_state				lexim_t_state;
 	int					is_redir;
 	struct s_lexim		*prev;
 	struct s_lexim		*next;
@@ -119,7 +119,7 @@ typedef struct s_general
 	int					exit_status;
 	int					command_count;
 	char				**ev;
-	int					_XH;
+	int					_hx;
 	int					sig;
 	unsigned int		old_c_lflag;
 	struct termios		_terminal;

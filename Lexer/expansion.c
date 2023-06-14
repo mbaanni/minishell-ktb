@@ -6,7 +6,7 @@
 /*   By: mbaanni <mbaanni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 15:36:10 by mtaib             #+#    #+#             */
-/*   Updated: 2023/06/14 20:24:21 by mbaanni          ###   ########.fr       */
+/*   Updated: 2023/06/14 21:53:47 by mbaanni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,26 +36,26 @@ char	*sub_keycode(char *str)
 void	replace_str(char *str)
 {
 	int	i;
-	int	state;
+	int	t_state;
 
-	state = 1;
+	t_state = 1;
 	i = 0;
 	while (str[i])
 	{
 		if (str[i] == '"' || str[i] == '\'')
 		{
-			state = 0;
+			t_state = 0;
 			i++;
 		}
-		while (str[i] && !state && str[i] != '"' && str[i] != '\'')
+		while (str[i] && !t_state && str[i] != '"' && str[i] != '\'')
 			i++;
-		if (!state)
+		if (!t_state)
 			i++;
 		if (str[i] && str[i] != '"' && str[i] != '\'')
-			state = 1;
-		if (state && str[i] == ' ')
+			t_state = 1;
+		if (t_state && str[i] == ' ')
 			str[i] = 1;
-		if (state)
+		if (t_state)
 			i++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: mbaanni <mbaanni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 10:17:58 by mbaanni           #+#    #+#             */
-/*   Updated: 2023/06/14 20:07:55 by mbaanni          ###   ########.fr       */
+/*   Updated: 2023/06/14 21:54:17 by mbaanni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char	*reading_heredoc(t_redir *redir)
 	{
 		if (isatty(0))
 			ft_fdprintf(1, ">");
-		buf = get_next_line(g_grl->_XH);
+		buf = get_next_line(g_grl->_hx);
 		if (!buf)
 			break ;
 		if (buf && buf[ft_strlen(buf) - 1] == '\n')
@@ -97,11 +97,11 @@ int	here_doc(t_redir *redir)
 		if (redir->token == HERE_DOC)
 		{
 			fd = -1;
-			if (g_grl->_XH == -2)
+			if (g_grl->_hx == -2)
 				return (-1);
-			g_grl->_XH = dup(0);
+			g_grl->_hx = dup(0);
 			str = reading_heredoc(redir);
-			close(g_grl->_XH);
+			close(g_grl->_hx);
 			fd = set_file(str);
 		}
 		redir = redir->next;
