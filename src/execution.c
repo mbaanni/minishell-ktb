@@ -6,7 +6,7 @@
 /*   By: mbaanni <mbaanni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 18:26:32 by mbaanni           #+#    #+#             */
-/*   Updated: 2023/06/14 19:41:53 by mbaanni          ###   ########.fr       */
+/*   Updated: 2023/06/14 20:09:57 by mbaanni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	check_file_exist(char *str)
 	if (opendir(str))
 	{
 		ft_fdprintf(2, "minishell: %s: is a directory\n", str);
-		exit(126);
+		custom_exit(126);
 	}
 	if (access(str, F_OK))
 	{
@@ -28,7 +28,7 @@ void	check_file_exist(char *str)
 			ft_fdprintf(2, "minishell: %s: No such file or directory\n", str);
 		else
 			ft_fdprintf(2, "minishell: %s: command not found\n", str);
-		exit(127);
+		custom_exit(127);
 	}
 }
 
@@ -57,16 +57,15 @@ int	one_cmd(t_command	*commands)
 void	child_work1(t_command	*commands)
 {
 	if (redirection_handler(commands, 0, 1))
-		exit(1);
+		custom_exit(1);
 	if (!commands->command_args)
-		exit(0);
+		custom_exit(0);
 	if (check_for_built_in(commands, 1))
-		exit(g_grl->exit_status);
+		custom_exit(g_grl->exit_status);
 }
 
 void	child_work(int fd, int i, t_command *commands, char **new_env)
 {
-	g_grl->sig = 1;
 	g_grl->_terminal.c_lflag = g_grl->old_c_lflag;
 	tcsetattr(0, TCSANOW, &g_grl->_terminal);
 	if (fd != -1)
@@ -90,7 +89,7 @@ void	child_work(int fd, int i, t_command *commands, char **new_env)
 	check_file_exist(commands->command_path);
 	execve(commands->command_path, commands->command_args, new_env);
 	perror(0);
-	exit(1);
+	custom_exit(1);
 }
 
 int	unseted_path(char *str)
@@ -167,6 +166,7 @@ void	executing_phase(void)
 	while (++i < g_grl->command_count)
 	{
 		new_env = set_new_env();
+		g_grl->sig = 1;
 		if (set_pipe_heredoc(&fd, i, commands->command_redirections))
 			return ;
 		pid[i] = fork();

@@ -6,7 +6,7 @@
 /*   By: mbaanni <mbaanni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 18:28:06 by mbaanni           #+#    #+#             */
-/*   Updated: 2023/06/08 11:19:54 by mbaanni          ###   ########.fr       */
+/*   Updated: 2023/06/14 19:54:42 by mbaanni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	change_env_exp(char *str)
 
 	exp = g_grl->env_head;
 	old = getcwd(0, 0);
+	garbage_collector(old, 0);
 	old = ft_strjoin("=", old);
 	if (chdir(str) == -1)
 	{
@@ -27,6 +28,7 @@ void	change_env_exp(char *str)
 		return ;
 	}
 	str = getcwd(0, 0);
+	garbage_collector(str, 0);
 	str = ft_strjoin("=", str);
 	while (exp)
 	{

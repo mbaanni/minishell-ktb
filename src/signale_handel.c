@@ -6,7 +6,7 @@
 /*   By: mbaanni <mbaanni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 11:17:22 by mbaanni           #+#    #+#             */
-/*   Updated: 2023/06/04 15:18:55 by mbaanni          ###   ########.fr       */
+/*   Updated: 2023/06/14 20:06:57 by mbaanni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int sin_int()
 {
-    write(1, "\n", 1);
+    ft_fdprintf(1, "\n");
 	if (g_grl->_XH != -1)
 	{
 		g_grl->exit_status = 1;
@@ -26,7 +26,7 @@ int sin_int()
 	{
 		g_grl->exit_status = 1;
 		rl_on_new_line();
-		//rl_replace_line("", 0);
+		rl_replace_line("", 0);
 		rl_redisplay();
 	}
     return (0);

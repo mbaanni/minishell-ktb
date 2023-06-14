@@ -6,7 +6,7 @@
 /*   By: mbaanni <mbaanni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 15:37:21 by mbaanni           #+#    #+#             */
-/*   Updated: 2023/06/14 18:31:31 by mbaanni          ###   ########.fr       */
+/*   Updated: 2023/06/14 19:55:12 by mbaanni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,9 @@ void	ft_pwd(void)
 
 	str = 0;
 	str = getcwd(0, 0);
+	garbage_collector(str, 0);
 	if (!str)
-		str = getenv("PWD");
+		str = ft_getenv("PWD");
 	ft_fdprintf(1, "%s\n", str);
 	g_grl->exit_status = 0;
 }

@@ -6,7 +6,7 @@
 /*   By: mbaanni <mbaanni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 14:30:50 by mbaanni           #+#    #+#             */
-/*   Updated: 2023/06/10 12:33:42 by mtaib            ###   ########.fr       */
+/*   Updated: 2023/06/14 20:01:52 by mbaanni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	init_general(char **env)
 
 	g_grl = my_alloc(sizeof(t_general));
 	if (!g_grl)
-		exit (1);
+		custom_exit (1);
 	g_grl->sig = 0;
 	tcgetattr(0, &terminal);
 	g_grl->old_c_lflag = terminal.c_lflag;
@@ -90,10 +90,10 @@ int	main(int ac, char **av, char **ev)
 	signal_to_take();
 	while (1)
 	{
+		g_grl->sig = 0;
 		g_grl->_XH = -1;
 		g_grl->_terminal.c_lflag &= ~ECHOCTL;
 		tcsetattr(0, TCSANOW, &g_grl->_terminal);
-		g_grl->sig = 0;
 		g_grl->_XH = -1;
 		str = readstring();
 		str = ft_trime_side(str);

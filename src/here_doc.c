@@ -6,7 +6,7 @@
 /*   By: mbaanni <mbaanni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 10:17:58 by mbaanni           #+#    #+#             */
-/*   Updated: 2023/06/14 17:54:33 by mbaanni          ###   ########.fr       */
+/*   Updated: 2023/06/14 20:07:55 by mbaanni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ char	*reading_heredoc(t_redir *redir)
 	while (1)
 	{
 		if (isatty(0))
-			write(1, ">", 1);
+			ft_fdprintf(1, ">");
 		buf = get_next_line(g_grl->_XH);
 		if (!buf)
 			break ;

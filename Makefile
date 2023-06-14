@@ -7,7 +7,7 @@ LEX_DIR = Lexer/
 
 LEX_SRC = make_lexims.c tokenizer.c parser.c expansion.c \
 	   expansion_utils.c convert_args.c 
-SRC= command_linked_list_stuff.c mini_parse.c built_in.c ft_unset.c signale_handel.c echo.c syntax_err.c\
+SRC= main.c command_linked_list_stuff.c mini_parse.c built_in.c ft_unset.c  echo.c syntax_err.c\
 	execution.c here_doc.c creat_env_list.c check_syntax.c export.c new_env.c cd.c check_syntax.c check_built.c\
 	heredoc_utils.c redirection.c
 
@@ -21,9 +21,9 @@ READ_LINE = -lreadline -L ${HOME}/homebrew/opt/readline/lib -I ${HOME}/homebrew/
 
 all : $(NAME)
 
-$(NAME) : $(OSRC)
+$(NAME) : $(OSRC) src/signale_handel.c
 	@make -C libft > /dev/null
-	@$(CC) $(FLAG) $(READ_LINE) $(INCLUDES)  $^ src/main.c libft/libft.a -o $(NAME)
+	@$(CC) $(FLAG) $(READ_LINE) $(INCLUDES)  $^ libft/libft.a -o $(NAME)
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c includes/minishell.h 
 	@mkdir -p $(OBJ_DIR)
