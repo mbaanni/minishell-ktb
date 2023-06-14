@@ -39,4 +39,9 @@ clean :
 fclean : clean
 	@make -C libft fclean
 	@rm -rf $(NAME)
+
+bonus: all
+
 re : fclean all
+
+.PHONY : all clean fclean re bonus
