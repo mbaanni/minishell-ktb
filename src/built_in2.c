@@ -6,7 +6,7 @@
 /*   By: mbaanni <mbaanni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 21:37:01 by mbaanni           #+#    #+#             */
-/*   Updated: 2023/06/14 21:44:47 by mbaanni          ###   ########.fr       */
+/*   Updated: 2023/06/15 14:39:28 by mbaanni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	ft_env(void)
 	ptr = g_grl->env_head;
 	while (ptr)
 	{
-		if (ptr->i == 1)
+		if (ptr->i)
 			ft_fdprintf(1, "%s=%s\n", ptr->id, ptr->data);
 		ptr = ptr->next;
 	}

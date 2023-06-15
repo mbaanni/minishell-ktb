@@ -6,7 +6,7 @@
 /*   By: mbaanni <mbaanni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 08:49:57 by mbaanni           #+#    #+#             */
-/*   Updated: 2023/06/08 11:22:06 by mbaanni          ###   ########.fr       */
+/*   Updated: 2023/06/15 13:29:47 by mbaanni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	**set_new_env(void)
 	new_env = my_alloc(sizeof(char *) * (list_env_size(env) + 1));
 	while (env)
 	{
-		if (env->data)
+		if (env->i)
 		{
 			new_env[i] = ft_strjoin(env->id, "=");
 			new_env[i] = ft_strjoin(new_env[i], env->data);

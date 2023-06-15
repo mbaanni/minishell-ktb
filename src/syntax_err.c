@@ -6,25 +6,11 @@
 /*   By: mbaanni <mbaanni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 17:58:04 by mbaanni           #+#    #+#             */
-/*   Updated: 2023/06/14 21:49:09 by mbaanni          ###   ########.fr       */
+/*   Updated: 2023/06/15 15:56:29 by mbaanni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-void	open_heredoc(char *str)
-{
-	char	*buf;
-
-	while (1)
-	{
-		buf = readline(">");
-		if (!buf)
-			break ;
-		if (ft_strcmps(buf, str))
-			break ;
-	}
-}
 
 int	take_token(t_token *token, t_lexim *lexim)
 {

@@ -6,7 +6,7 @@
 /*   By: mbaanni <mbaanni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 09:45:30 by mbaanni           #+#    #+#             */
-/*   Updated: 2023/06/14 18:34:32 by mbaanni          ###   ########.fr       */
+/*   Updated: 2023/06/15 16:21:07 by mbaanni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,10 +96,8 @@ int	check_identifier(char *str)
 void	ft_export(t_command *cmd)
 {
 	int	i;
-	int	flag;
 
 	i = 0;
-	flag = 0;
 	g_grl->exit_status = 0;
 	if (check_argument_export(cmd))
 		return ;

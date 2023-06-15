@@ -6,7 +6,7 @@
 /*   By: mbaanni <mbaanni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 08:53:49 by mbaanni           #+#    #+#             */
-/*   Updated: 2023/06/15 11:55:44 by mbaanni          ###   ########.fr       */
+/*   Updated: 2023/06/15 16:19:20 by mbaanni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,7 @@ char	*get_path(char *argu)
 void	find_path(void)
 {
 	t_command	*ptr;
-	int			i;
 
-	i = 0;
 	ptr = g_grl->command_head;
 	while (ptr)
 	{

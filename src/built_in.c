@@ -6,12 +6,13 @@
 /*   By: mbaanni <mbaanni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 15:37:21 by mbaanni           #+#    #+#             */
-/*   Updated: 2023/06/15 09:15:27 by mbaanni          ###   ########.fr       */
+/*   Updated: 2023/06/15 15:00:01 by mbaanni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include <stdlib.h>
+#include <unistd.h>
 
 static void	print_error(char *str)
 {
@@ -48,6 +49,8 @@ int	exit_atoi(char *str)
 
 void	ft_exit(t_command *cmd)
 {
+	if (isatty(0))
+		write(1, "exit\n", 5);
 	if (!cmd->command_args[1])
 		custom_exit(g_grl->exit_status);
 	if (cmd->command_args[2])
