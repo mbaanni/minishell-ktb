@@ -6,7 +6,7 @@
 /*   By: mbaanni <mbaanni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 21:48:05 by mbaanni           #+#    #+#             */
-/*   Updated: 2023/06/14 21:50:39 by mbaanni          ###   ########.fr       */
+/*   Updated: 2023/06/15 15:08:51 by mbaanni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int	unseted_path(char *str)
 {
 	if (!ft_getenv("PATH") && ft_strncmp("echo", str, 1))
 	{
-		ft_fdprintf(2, "minishell: %s: No such file or directory\n");
+		ft_fdprintf(2, "minishell: %s: No such file or directory\n", str);
 		g_grl->exit_status = 127;
 		return (1);
 	}

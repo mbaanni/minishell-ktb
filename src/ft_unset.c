@@ -6,7 +6,7 @@
 /*   By: mbaanni <mbaanni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 16:20:51 by mbaanni           #+#    #+#             */
-/*   Updated: 2023/06/14 20:20:46 by mbaanni          ###   ########.fr       */
+/*   Updated: 2023/06/15 14:45:13 by mbaanni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	add_new_env(int i, char **args)
 	tmp = my_alloc(sizeof(t_env));
 	tmp->id = ft_substr(args[i], 0, index_signe(args[i]));
 	tmp->data = ft_strchr_data(args[i]);
-	if (tmp->data)
+	if (tmp->data || args[i][index_signe(args[i])] == '=')
 		tmp->i = 1;
 	else
 		tmp->i = 0;
