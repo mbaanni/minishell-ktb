@@ -39,12 +39,10 @@ int	expand_it(char *str)
 	return (1);
 }
 
-t_lexim	*parse_redirections(t_lexim *lexims, t_redir **redirs)
+t_lexim	*parse_redirections(t_lexim *lexims, t_redir **redirs, char *str)
 {
-	char	*str;
 	t_lexim	*tmp;
 
-	str = NULL;
 	if (lexims->next)
 	{
 		tmp = lexims->next;
@@ -76,14 +74,8 @@ t_redir	*last_redir(t_redir *redirs)
 	return (redirs);
 }
 
-t_cmd	*parse_commands(t_lexim *lexims)
+t_cmd	*parse_commands(t_lexim *lexims, t_cmd *cmds, int i)
 {
-	t_cmd	*cmds;
-	int		i;
-	t_lexim	*tmp;
-
-	tmp = lexims;
-	i = -1;
 	g_grl->command_count = n_cmds(lexims);
 	cmds = my_alloc(g_grl->command_count * sizeof(t_cmd));
 	if (!cmds)
@@ -94,13 +86,11 @@ t_cmd	*parse_commands(t_lexim *lexims)
 		{
 			if (lexims->token == RDIRIN || lexims->token == RDIROUT
 				|| lexims->token == HERE_DOC || lexims->token == APPEND)
-				lexims = parse_redirections(lexims, &(cmds[i].redirs));
+				lexims = parse_redirections(lexims, &(cmds[i].redirs), NULL);
 			else
-			{
 				if (!lexims->is_redir)
 					add_back(&(cmds[i].args), new_lex(lexims->content,
 							lexims->token));
-			}
 			if (lexims)
 				lexims = lexims->next;
 		}

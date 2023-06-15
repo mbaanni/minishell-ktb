@@ -105,5 +105,5 @@ void	tokenize_elements(t_lexim *lexims)
 		tokenize_lexims(lexims);
 		lexims = lexims->next;
 	}
-	parse_commands(tmp);
+	parse_commands(tmp, NULL, -1);
 }

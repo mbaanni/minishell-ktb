@@ -11,11 +11,11 @@
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-#include <dirent.h>
 
-int		check_astrik(char	*str)
+int	check_astrik(char *str)
 {
-	int		i;
+	int	i;
+
 	i = 0;
 	while (str[i])
 	{
@@ -46,9 +46,9 @@ char	*needle(char *str)
 	return (ndl);
 }
 
-int		ft_strcmp(char *s1, char *s2)
+int	ft_strcmp(char *s1, char *s2)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	if (!s1 || !s2)
@@ -58,10 +58,10 @@ int		ft_strcmp(char *s1, char *s2)
 	return (s1[i] - s2[i]);
 }
 
-int		ft_count(char *str)
+int	ft_count(char *str)
 {
-	int		i;
-	int		c;
+	int	i;
+	int	c;
 
 	c = 0;
 	i = 0;
@@ -76,13 +76,11 @@ int		ft_count(char *str)
 
 char	*last_wd_occurence(char *str, char *find)
 {
-	int		i;
-	int		j;
-
+	int	i;
+	int	j;
 
 	i = ft_strlen(str) - 1;
 	j = ft_strlen(find) - 1;
-	
 	while (i >= 0 && str[i] && find[i])
 	{
 		if (str[i] != find[j])
@@ -91,9 +89,9 @@ char	*last_wd_occurence(char *str, char *find)
 		j--;
 	}
 	return (&find[j] + 1);
-}	
+}
 
-int matchpattern(char *pattern,char *filename) 
+int	matchpattern(char *pattern, char *filename)
 {
 	int		i;
 	int		s;
@@ -113,39 +111,42 @@ int matchpattern(char *pattern,char *filename)
 		{
 			if (!check_astrik(&pattern[i]))
 			{
-				if (ft_strcmp(last_wd_occurence(&pattern[i], filename), &pattern[i]))
+				if (ft_strcmp(last_wd_occurence(&pattern[i], filename),
+						&pattern[i]))
 					return (0);
 				return (1);
 			}
-			else if (i == 0 && !ft_strncmp(filename, needle(&pattern[i]), check_astrik(&pattern[i])))
+			else if (i == 0 && !ft_strncmp(filename, needle(&pattern[i]),
+						check_astrik(&pattern[i])))
 			{
 				str = needle(&pattern[i]);
 				while (pattern[i] && pattern[i] != '*')
 					i++;
 				if (!pattern[i])
-					break;
+					break ;
 				while (filename[j] && str[j] && filename[j] == str[j])
 					j++;
 				if (filename)
 				{
-					filename+=j;
+					filename += j;
 				}
 			}
-			else if (i > 0 
-					&& ft_strnstr(filename, needle(&pattern[i]), ft_strlen(filename))
-					&& (pattern[i] != filename[0] || ft_strchr(filename,pattern[i])))
+			else if (i > 0 && ft_strnstr(filename, needle(&pattern[i]),
+						ft_strlen(filename)) && (pattern[i] != filename[0]
+						|| ft_strchr(filename, pattern[i])))
 			{
 				if (!pattern[i])
-					break;
+					break ;
 				str = needle(&pattern[i]);
 				filename = ft_strchr(filename, pattern[i]);
 				if (check_astrik(&pattern[i]))
 				{
-					while (filename && filename[j] && str[j] && filename[j] == str[j])
+					while (filename && filename[j] && str[j]
+						&& filename[j] == str[j])
 						j++;
 					if (filename)
 					{
-						filename+=j;
+						filename += j;
 					}
 				}
 				while (pattern[i] && pattern[i] != '*')
@@ -162,27 +163,26 @@ int matchpattern(char *pattern,char *filename)
 			s++;
 			i++;
 		}
-		//printf
 	}
 	if (pattern[0] && s >= count)
 		return (1);
 	return (0);
 }
 
-t_lexim		*find_matching(char *pattern)
+t_lexim	*find_matching(char *pattern)
 {
-    DIR *dir;
-    struct dirent *ent;
-	t_lexim		*matches;
-	t_lexim 	*tmp;
+	DIR				*dir;
+	struct dirent	*ent;
+	t_lexim			*matches;
+	t_lexim			*tmp;
 
-	tmp = NULL;	
+	tmp = NULL;
 	matches = NULL;
-	if ((dir = opendir(".")) != NULL) 
+	if ((dir = opendir(".")) != NULL)
 	{
-        while ((ent = readdir(dir)) != NULL) 
+		while ((ent = readdir(dir)) != NULL)
 		{
-            if (matchpattern(pattern, ent->d_name)) 
+			if (matchpattern(pattern, ent->d_name))
 			{
 				if (ent->d_name[0] == '.' && pattern[0] != '.')
 					continue ;
@@ -193,6 +193,6 @@ t_lexim		*find_matching(char *pattern)
 			}
 		}
 	}
-    closedir(dir);
+	closedir(dir);
 	return (matches);
 }

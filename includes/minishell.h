@@ -117,13 +117,15 @@ void					add_back(t_lexim **head, t_lexim *new_lexim);
 void					tokenize_elements(t_lexim *lexims);
 void					parse_env(t_lexim *lexims);
 char					*parse_string(char *str);
-t_cmd					*parse_commands(t_lexim *lexims);
+t_cmd					*parse_commands(t_lexim *lexims, t_cmd *cmds, int	i);
 int						should_parse(char *str);
 t_lexim					*new_lex(char *str, t_token type);
 t_redir					*new_redir(t_token token, char *file);
 void					redir_add_back(t_redir **head, t_redir *redir);
 int						n_cmds(t_lexim *lexims);
 t_redir					*last_node(t_redir *redirs);
+char	*get_arg(char *str);
+int	parsing_processing(char *str, char c, int i, char **s2);
 
 //####### General structer #######//
 typedef struct s_general
@@ -180,7 +182,7 @@ int						check_syntax(char *str);
 void					handle_signal(int sig);
 int						check_for_built_in(t_command *cmd, int i);
 int						is_expand(char *str);
-t_lexim					*convert_to_lexims(char *str);
+t_lexim	*convert_to_lexims(char *str, int i, t_lexim *lexims);
 int						ft_strcmps(char *s1, char *s2);
 void					check_file_exist(char *str);
 int						one_cmd(t_command *commands);

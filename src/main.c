@@ -70,7 +70,7 @@ void	start_pr_ex(char *str)
 		add_history(str);
 		if (!check_syntax(str))
 		{
-			lexims = convert_to_lexims(str);
+			lexims = convert_to_lexims(str, 0, NULL);
 			if (lexims && !check_token_syntax(lexims))
 			{
 				find_path();

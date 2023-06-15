@@ -77,13 +77,8 @@ int	special_lexims(char *str, int i, char c, t_lexim **lexims)
 	return (i);
 }
 
-t_lexim	*convert_to_lexims(char *str)
+t_lexim	*convert_to_lexims(char *str, int i, t_lexim *lexims)
 {
-	int		i;
-	t_lexim	*lexims;
-
-	lexims = NULL;
-	i = 0;
 	while (str[i])
 	{
 		if (str[i] && ft_strchr("\"'$<>|", str[i]))
