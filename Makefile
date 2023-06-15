@@ -8,7 +8,7 @@ EXP_DIR = Expansion/
 PAR_DIR = Parser/
 
 LEX_SRC = make_lexims.c tokenizer.c make_lexims_utils.c
-EXP_SRC = expansion.c expansion_utils.c wildcard.c expansion_utils_2.c expansion_utils_3.c
+EXP_SRC = expansion.c expansion_utils.c wildcard.c expansion_utils_2.c expansion_utils_3.c wildcard_utils_2.c wildcard_utils_1.c
 PAR_SRC = parser.c parser_utils.c convert_args.c convert_args_utils.c convert_args_utils_2.c
 
 SRC= main.c command_linked_list_stuff.c mini_parse.c built_in.c ft_unset.c  echo.c syntax_err.c\

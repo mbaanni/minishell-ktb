@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+#include <stdio.h>
 
 t_lexim	*expand_wild_card(t_lexim *tmp_lexim, char *astrik)
 {
@@ -23,7 +24,7 @@ t_lexim	*expand_wild_card(t_lexim *tmp_lexim, char *astrik)
 	tmp_next = NULL;
 	if (tmp_lexim->prev)
 		tmp_prev = tmp_lexim->prev;
-	tmp_lexim = expand_wild_card_utils(tmp_lexim, tmp_next, astrik);
+	tmp_lexim = expand_wild_card_utils(tmp_lexim, tmp_next, &astrik);
 	if (astrik)
 		astriks = find_matching(astrik);
 	if (astriks)

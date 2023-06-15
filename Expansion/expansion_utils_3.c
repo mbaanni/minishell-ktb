@@ -100,7 +100,7 @@ t_lexim	*expand_env(t_lexim *tmp_lexim)
 }
 
 t_lexim	*expand_wild_card_utils(t_lexim *tmp_lexim, t_lexim *tmp_next,
-		char *astrik)
+		char **astrik)
 {
 	tmp_next = tmp_lexim->next;
 	while (tmp_next && tmp_next->token == ENV)
@@ -109,7 +109,7 @@ t_lexim	*expand_wild_card_utils(t_lexim *tmp_lexim, t_lexim *tmp_next,
 	{
 		if (tmp_lexim->token == ENV)
 			tmp_lexim = expand_env(tmp_lexim);
-		astrik = ft_strjoin(astrik, tmp_lexim->content);
+		*astrik = ft_strjoin(*astrik, tmp_lexim->content);
 		if (tmp_lexim)
 			tmp_lexim = tmp_lexim->next;
 	}

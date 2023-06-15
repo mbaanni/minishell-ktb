@@ -6,7 +6,7 @@
 /*   By: mbaanni <mbaanni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 20:27:54 by mbaanni           #+#    #+#             */
-/*   Updated: 2023/06/15 13:00:57 by mbaanni          ###   ########.fr       */
+/*   Updated: 2023/06/15 18:50:04 by mtaib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 # include <dirent.h>
 # include <fcntl.h>
 # include <limits.h>
+# include <readline/history.h>
+# include <readline/readline.h>
 # include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -26,8 +28,6 @@
 # include <sys/wait.h>
 # include <termios.h>
 # include <unistd.h>
-# include <readline/history.h>
-# include <readline/readline.h>
 
 typedef enum toke_state
 {
@@ -117,15 +117,15 @@ void					add_back(t_lexim **head, t_lexim *new_lexim);
 void					tokenize_elements(t_lexim *lexims);
 void					parse_env(t_lexim *lexims);
 char					*parse_string(char *str);
-t_cmd					*parse_commands(t_lexim *lexims, t_cmd *cmds, int	i);
+t_cmd					*parse_commands(t_lexim *lexims, t_cmd *cmds, int i);
 int						should_parse(char *str);
 t_lexim					*new_lex(char *str, t_token type);
 t_redir					*new_redir(t_token token, char *file);
 void					redir_add_back(t_redir **head, t_redir *redir);
 int						n_cmds(t_lexim *lexims);
 t_redir					*last_node(t_redir *redirs);
-char	*get_arg(char *str);
-int	parsing_processing(char *str, char c, int i, char **s2);
+char					*get_arg(char *str);
+int						parsing_processing(char *str, char c, int i, char **s2);
 
 //####### General structer #######//
 typedef struct s_general
@@ -141,6 +141,8 @@ typedef struct s_general
 	struct termios		_terminal;
 	int					prev[2];
 	int					next[2];
+	DIR					*dir;
+	struct dirent		*ent;
 }						t_general;
 
 extern t_general		*g_grl;
@@ -182,7 +184,7 @@ int						check_syntax(char *str);
 void					handle_signal(int sig);
 int						check_for_built_in(t_command *cmd, int i);
 int						is_expand(char *str);
-t_lexim	*convert_to_lexims(char *str, int i, t_lexim *lexims);
+t_lexim					*convert_to_lexims(char *str, int i, t_lexim *lexims);
 int						ft_strcmps(char *s1, char *s2);
 void					check_file_exist(char *str);
 int						one_cmd(t_command *commands);
@@ -190,17 +192,25 @@ void					child_work1(t_command *commands);
 void					child_work(int fd, int i, t_command *commands,
 							char **new_env);
 int						unseted_path(char *str);
-char	*sub_keycode(char *str);
-void	replace_str(char *str);
-int	check_ambigious(char *str);
-int	is_space(char *str);
-int	is_wild(char *str);
-void	add_args(t_lexim *tmp_lexim, char **args);
-void	assign_values(char **args, t_lexim **tmp_lexim);
-t_lexim	*get_value(t_lexim *tmp_lexim, t_lexim **tmp_next);
-t_lexim	*expand_env(t_lexim *tmp_lexim);
-t_lexim	*expand_wild_card_utils(t_lexim *tmp_lexim, t_lexim *tmp_next,
-		char *astrik);
+char					*sub_keycode(char *str);
+void					replace_str(char *str);
+int						check_ambigious(char *str);
+int						is_space(char *str);
+int						is_wild(char *str);
+void					add_args(t_lexim *tmp_lexim, char **args);
+void					assign_values(char **args, t_lexim **tmp_lexim);
+t_lexim					*get_value(t_lexim *tmp_lexim, t_lexim **tmp_next);
+t_lexim					*expand_env(t_lexim *tmp_lexim);
+t_lexim					*expand_wild_card_utils(t_lexim *tmp_lexim,
+							t_lexim *tmp_next, char **astrik);
+int						check_astrik(char *str);
+char					*needle(char *str);
+int						ft_strcmp(char *s1, char *s2);
+int						ft_count(char *str);
+char					*last_wd_occurence(char *str, char *find);
+int						in_begining(char *pattern, int *i, int *j,
+							char **filename);
+
 //####################################################################
 //#							built_in									#
 //####################################################################
