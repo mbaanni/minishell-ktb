@@ -6,7 +6,7 @@
 /*   By: mbaanni <mbaanni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 18:26:32 by mbaanni           #+#    #+#             */
-/*   Updated: 2023/06/14 21:54:17 by mbaanni          ###   ########.fr       */
+/*   Updated: 2023/06/15 15:52:43 by mbaanni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,4 +94,5 @@ void	executing_phase(void)
 		commands = commands->next;
 	}
 	wait_for_chiled(pid);
+	ft_myalloc_dell(pid);
 }

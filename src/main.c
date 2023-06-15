@@ -6,7 +6,7 @@
 /*   By: mbaanni <mbaanni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 14:30:50 by mbaanni           #+#    #+#             */
-/*   Updated: 2023/06/15 12:11:46 by mbaanni          ###   ########.fr       */
+/*   Updated: 2023/06/15 15:42:03 by mbaanni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ int	main(int ac, char **av, char **ev)
 
 	(void)ac;
 	(void)av;
+	str = 0;
 	init_general(ev);
 	signal_to_take();
 	while (1)
@@ -95,6 +96,8 @@ int	main(int ac, char **av, char **ev)
 		g_grl->_terminal.c_lflag &= ~ECHOCTL;
 		tcsetattr(0, TCSANOW, &g_grl->_terminal);
 		g_grl->_hx = -1;
+		if (str)
+			ft_myalloc_dell(str);
 		str = readstring();
 		str = ft_trime_side(str);
 		start_pr_ex(str);
