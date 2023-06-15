@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtaib <mtaib@student.1337.ma>              +#+  +:+       +#+        */
+/*   By: mbaanni <mbaanni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 19:35:50 by mtaib             #+#    #+#             */
-/*   Updated: 2023/06/14 15:58:56 by mtaib            ###   ########.fr       */
+/*   Updated: 2023/06/15 12:49:32 by mbaanni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ int	parse_it(char *str)
 		c = str[i++];
 		while (str[i] && str[i] != c)
 		{
-			if (c == '"' && str[i] == '$' && (str[i + 1] == '_' || str[i + 1] == '?' // added ?
-				|| ft_isalpha(str[i + 1])))
+			if (c == '"' && str[i] == '$' && (str[i + 1] == '_'
+					|| str[i + 1] == '?' || ft_isalpha(str[i + 1])))
 				return (1);
 			i++;
 		}
@@ -63,52 +63,23 @@ void	parse_env(t_lexim *lexims)
 	}
 }
 
-void	print_tokens(t_lexim *tmp)
-{
-	while (tmp)
-	{
-		printf("content = %s\n", tmp->content);
-		printf("type    = ");
-		if (tmp->token == WORD)
-			printf("WORD");
-		else if (tmp->token == ENV)
-			printf("ENV");
-		else if (tmp->token == PIPE)
-			printf("PIPE");
-		else if (tmp->token == RDIRIN)
-			printf("RDIRIN");
-		else if (tmp->token == RDIROUT)
-			printf("RDIROUT");
-		else if (tmp->token == HERE_DOC)
-			printf("HERE_DOC");
-		else if (tmp->token == SPACES)
-			printf("SPACE");
-		else if (tmp->token == TABS)
-			printf("TAB");
-		else if (tmp->token == APPEND)
-			printf("APPEND");
-		printf("\n");
-		printf("----------\n");
-		tmp = tmp->next;
-	}
-}
-
 void	tokenize_lexims(t_lexim *lexims)
 {
 	if (lexims->content[0] == '|')
 		lexims->token = PIPE;
-	else if (lexims->content[0] == '<' &&
-				(!lexims->content[1] || lexims->content[2]))
+	else if (lexims->content[0] == '<'
+		&& (!lexims->content[1] || lexims->content[2]))
 		lexims->token = RDIRIN;
 	else if (lexims->content[0] == '>' && lexims->content[1] == '>'
-			&& !lexims->content[2])
+		&& !lexims->content[2])
 		lexims->token = APPEND;
 	else if (lexims->content[0] == '>')
 		lexims->token = RDIROUT;
 	else if (lexims->content[0] == '<' && ft_strlen(lexims->content) == 2)
 		lexims->token = HERE_DOC;
-	else if (lexims->content[0] == '$' && (lexims->content[1] == '_' || lexims->content[1] == '?' //added $? to env
-				|| ft_isalpha(lexims->content[1]) || ft_isdigit(lexims->content[1])))
+	else if (lexims->content[0] == '$' && (lexims->content[1] == '_'
+			|| lexims->content[1] == '?' || ft_isalpha(lexims->content[1])
+			|| ft_isdigit(lexims->content[1])))
 		lexims->token = ENV;
 	else if (lexims->content[0] == ' ')
 		lexims->token = SPACES;
@@ -121,7 +92,7 @@ void	tokenize_lexims(t_lexim *lexims)
 	}
 }
 
-void		tokenize_elements(t_lexim *lexims)
+void	tokenize_elements(t_lexim *lexims)
 {
 	t_lexim	*tmp;
 	int		i;
@@ -135,6 +106,4 @@ void		tokenize_elements(t_lexim *lexims)
 		lexims = lexims->next;
 	}
 	parse_commands(tmp);
-	//print_tokens(tmp);
-	//exit(0);
 }

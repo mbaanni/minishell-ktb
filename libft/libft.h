@@ -6,7 +6,7 @@
 /*   By: mbaanni <mbaanni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 13:08:51 by mtaib             #+#    #+#             */
-/*   Updated: 2023/06/09 18:37:38 by mbaanni          ###   ########.fr       */
+/*   Updated: 2023/06/15 11:17:49 by mbaanni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,15 +76,18 @@ void					ft_lstdelone(t_list *lst, void (*del)(void *));
 void					ft_lstclear(t_list **lst, void (*del)(void *));
 t_list					*ft_lstmap(t_list *lst, void *(*f)(void *),
 							void (*del)(void *));
-void					garbage_collector(void *adress, int arg);
 void					custom_exit(int exit_code);
 int						ft_fdprintf(int fd, char *str, ...);
 
-//my alloc
+//###################################################################
+//								my alloc							#
+//##################################################################
+
+t_myalloc				**garbage_collector(void *adress, int flag);
 void					*my_alloc(int size);
 t_myalloc				*my_alloc_new(void *content);
-t_myalloc				*my_alloc_last(t_myalloc *lst);
 void					my_alloc_addback(t_myalloc **lst, t_myalloc *node);
-void					my_alloc_clear(t_myalloc **lst, void (*del)(void *));
+void					my_alloc_clear(t_myalloc **lst);
+void					ft_myalloc_dell(void *node);
 
 #endif

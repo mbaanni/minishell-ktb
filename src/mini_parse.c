@@ -6,7 +6,7 @@
 /*   By: mbaanni <mbaanni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 08:53:49 by mbaanni           #+#    #+#             */
-/*   Updated: 2023/06/08 12:11:10 by mbaanni          ###   ########.fr       */
+/*   Updated: 2023/06/15 11:55:44 by mbaanni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,12 @@ char	*ft_trime_side(char *str)
 	i = 0;
 	new = 0;
 	j = ft_strlen(str);
-	while (str[i] && (str[i] == '	' || str[i] == ' '))
+	while (str[i] && (str[i] == '\t' || str[i] == ' '))
 		i++;
-	while (j > 0 && (str[j - 1] == '	' || str[j - 1] == ' '))
+	while (j > 0 && (str[j - 1] == '\t' || str[j - 1] == ' '))
 		j--;
 	new = ft_substr(str, i, j - i);
+	ft_myalloc_dell(str);
 	return (new);
 }
 
@@ -52,6 +53,7 @@ char	*get_path(char *argu)
 		bin = ft_strjoin(bin, argu);
 		if (access(bin, F_OK) == 0)
 			return (bin);
+		ft_myalloc_dell(bin);
 		i++;
 	}
 	return (argu);

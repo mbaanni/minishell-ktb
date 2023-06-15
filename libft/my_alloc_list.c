@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   myalloc_list.c                                     :+:      :+:    :+:   */
+/*   my_alloc_list.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbaanni <mbaanni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 20:14:47 by mbaanni           #+#    #+#             */
-/*   Updated: 2023/06/14 20:14:52 by mbaanni          ###   ########.fr       */
+/*   Updated: 2023/06/15 12:15:12 by mbaanni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_myalloc	*my_alloc_new(void *content)
 	return (newnode);
 }
 
-t_myalloc	*my_alloc_last(t_myalloc *lst)
+t_myalloc	*alloc_last(t_myalloc *lst)
 {
 	while (lst)
 	{
@@ -41,18 +41,18 @@ void	my_alloc_addback(t_myalloc **lst, t_myalloc *new)
 
 	if (*lst)
 	{
-		tmp = my_alloc_last(*lst);
+		tmp = alloc_last(*lst);
 		tmp->next = new;
 	}
 	else
 		*lst = new;
 }
 
-void	my_alloc_clear(t_myalloc **lst, void (*del)(void *))
+void	my_alloc_clear(t_myalloc **lst)
 {
 	t_myalloc	*tmp;
 
-	if (!del || !lst)
+	if (!lst)
 		return ;
 	while (*lst)
 	{

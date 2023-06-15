@@ -6,7 +6,7 @@
 /*   By: mbaanni <mbaanni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 11:17:22 by mbaanni           #+#    #+#             */
-/*   Updated: 2023/06/14 21:54:17 by mbaanni          ###   ########.fr       */
+/*   Updated: 2023/06/15 12:24:48 by mbaanni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	sin_int(void)
 	{
 		g_grl->exit_status = 1;
 		rl_on_new_line();
-		// rl_replace_line("", 0);
+		rl_replace_line("", 0);
 		rl_redisplay();
 	}
 	return (0);

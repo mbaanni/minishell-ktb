@@ -6,7 +6,7 @@
 /*   By: mbaanni <mbaanni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 15:37:21 by mbaanni           #+#    #+#             */
-/*   Updated: 2023/06/14 21:36:42 by mbaanni          ###   ########.fr       */
+/*   Updated: 2023/06/15 09:15:27 by mbaanni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	ft_exit(t_command *cmd)
 	{
 		exit_atoi(cmd->command_args[1]);
 		ft_fdprintf(2, "minishell: exit: too many arguments\n");
-		custom_exit(1);
+		g_grl->exit_status = 1;
 	}
 	else
 		custom_exit((char)exit_atoi(cmd->command_args[1]));

@@ -6,7 +6,7 @@
 /*   By: mbaanni <mbaanni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 20:27:54 by mbaanni           #+#    #+#             */
-/*   Updated: 2023/06/15 09:56:18 by mtaib            ###   ########.fr       */
+/*   Updated: 2023/06/15 13:00:57 by mbaanni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ typedef struct s_cmd
 }						t_cmd;
 
 /******WILD CARD************/
-t_lexim		*find_matching(char *pattern);
+t_lexim					*find_matching(char *pattern);
 /***************************/
 
 /******EXPANSION UTILS******/
@@ -107,7 +107,11 @@ char					**get_args(t_list *cmd);
 void					cmdadd_back(t_command **cmds, t_command *newcmd);
 t_command				*new_cmd(char **args);
 t_command				*convert_args(t_cmd *cmds);
-
+void					add_back(t_lexim **head, t_lexim *new_lexim);
+t_lexim					*new_lexim(char *str);
+int						count_chars_for_quotes(char *str);
+int						count_chars_for_env(char *str);
+int						count_chars_for_rep(char *str);
 t_cmd					*ft_expand(t_cmd *cmds, int nb_cmds);
 void					add_back(t_lexim **head, t_lexim *new_lexim);
 void					tokenize_elements(t_lexim *lexims);
@@ -115,6 +119,12 @@ void					parse_env(t_lexim *lexims);
 char					*parse_string(char *str);
 t_cmd					*parse_commands(t_lexim *lexims);
 int						should_parse(char *str);
+t_lexim					*new_lex(char *str, t_token type);
+t_redir					*new_redir(t_token token, char *file);
+void					redir_add_back(t_redir **head, t_redir *redir);
+int						n_cmds(t_lexim *lexims);
+t_redir					*last_node(t_redir *redirs);
+
 //####### General structer #######//
 typedef struct s_general
 {

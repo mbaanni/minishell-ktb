@@ -6,24 +6,27 @@
 /*   By: mbaanni <mbaanni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 16:17:56 by mbaanni           #+#    #+#             */
-/*   Updated: 2023/06/06 13:28:42 by mbaanni          ###   ########.fr       */
+/*   Updated: 2023/06/15 10:26:04 by mbaanni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	garbage_collector(void *adress, int arg)
+t_myalloc	**garbage_collector(void *adress, int flag)
 {
 	static t_myalloc	*head;
 	t_myalloc			*node;
 
-	if (arg)
-		my_alloc_clear(&head, free);
+	if (flag == 2)
+		return (&head);
+	if (flag)
+		my_alloc_clear(&head);
 	else
 	{
 		node = my_alloc_new(adress);
 		my_alloc_addback(&head, node);
 	}
+	return (0);
 }
 
 void	custom_exit(int exit_code)
