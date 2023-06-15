@@ -6,7 +6,7 @@
 /*   By: mtaib <mtaib@student.1337.ma>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 09:29:50 by mtaib             #+#    #+#             */
-/*   Updated: 2023/06/15 11:17:11 by mtaib            ###   ########.fr       */
+/*   Updated: 2023/06/15 13:11:03 by mtaib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,25 @@ int		ft_count(char *str)
 	return (c);
 }
 
+char	*last_wd_occurence(char *str, char *find)
+{
+	int		i;
+	int		j;
+
+
+	i = ft_strlen(str) - 1;
+	j = ft_strlen(find) - 1;
+	
+	while (i >= 0 && str[i] && find[i])
+	{
+		if (str[i] != find[j])
+			return (&find[j] + 1);
+		i--;
+		j--;
+	}
+	return (&find[j] + 1);
+}	
+
 int matchpattern(char *pattern,char *filename) 
 {
 	int		i;
@@ -94,7 +113,7 @@ int matchpattern(char *pattern,char *filename)
 		{
 			if (!check_astrik(&pattern[i]))
 			{
-				if (ft_strcmp(ft_strrchr(filename, pattern[i]), &pattern[i]))
+				if (ft_strcmp(last_wd_occurence(&pattern[i], filename), &pattern[i]))
 					return (0);
 				return (1);
 			}
@@ -114,12 +133,12 @@ int matchpattern(char *pattern,char *filename)
 			}
 			else if (i > 0 
 					&& ft_strnstr(filename, needle(&pattern[i]), ft_strlen(filename))
-					&& (pattern[i] != filename[0] || ft_strchr(&filename[1],pattern[i])))
+					&& (pattern[i] != filename[0] || ft_strchr(filename,pattern[i])))
 			{
-				str = needle(&pattern[i]);
 				if (!pattern[i])
 					break;
-				filename = ft_strchr(&filename[1], pattern[i]);
+				str = needle(&pattern[i]);
+				filename = ft_strchr(filename, pattern[i]);
 				if (check_astrik(&pattern[i]))
 				{
 					while (filename && filename[j] && str[j] && filename[j] == str[j])
@@ -143,6 +162,7 @@ int matchpattern(char *pattern,char *filename)
 			s++;
 			i++;
 		}
+		//printf
 	}
 	if (pattern[0] && s >= count)
 		return (1);
@@ -170,11 +190,9 @@ t_lexim		*find_matching(char *pattern)
 				tmp = new_lexim(" ");
 				add_back(&matches, tmp);
 				tmp->token = SPACES;
-                //printf("Matching file: %s\n", ent->d_name);
-                // Add your logic here to process each file
-            }
-        }
-        closedir(dir);
+			}
+		}
 	}
+    closedir(dir);
 	return (matches);
 }
