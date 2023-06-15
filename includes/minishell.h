@@ -190,7 +190,17 @@ void					child_work1(t_command *commands);
 void					child_work(int fd, int i, t_command *commands,
 							char **new_env);
 int						unseted_path(char *str);
-
+char	*sub_keycode(char *str);
+void	replace_str(char *str);
+int	check_ambigious(char *str);
+int	is_space(char *str);
+int	is_wild(char *str);
+void	add_args(t_lexim *tmp_lexim, char **args);
+void	assign_values(char **args, t_lexim **tmp_lexim);
+t_lexim	*get_value(t_lexim *tmp_lexim, t_lexim **tmp_next);
+t_lexim	*expand_env(t_lexim *tmp_lexim);
+t_lexim	*expand_wild_card_utils(t_lexim *tmp_lexim, t_lexim *tmp_next,
+		char *astrik);
 //####################################################################
 //#							built_in									#
 //####################################################################
