@@ -26,7 +26,7 @@ int	sin_int(void)
 	{
 		g_grl->exit_status = 1;
 		rl_on_new_line();
-		// rl_replace_line("", 0);
+		rl_replace_line("", 0);
 		rl_redisplay();
 	}
 	return (0);

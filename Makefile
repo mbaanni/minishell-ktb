@@ -1,4 +1,4 @@
-FLAG= -Wall -Wextra -Werror #-fsanitize=address
+FLAG= -Wall -Wextra -Werror
 NAME=minishell
 
 SRC_DIR = src/
