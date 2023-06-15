@@ -6,7 +6,7 @@
 /*   By: mtaib <mtaib@student.1337.ma>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 15:36:10 by mtaib             #+#    #+#             */
-/*   Updated: 2023/06/14 16:01:25 by mtaib            ###   ########.fr       */
+/*   Updated: 2023/06/15 11:52:23 by mtaib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,59 @@ int		is_space(char *str)
 	return (1);
 }
 
+int		is_wild(char *str)
+{
+	int		i;
+
+	i = 0;
+	if (str[i] == '"' || str[i] == '\'')
+		return (0);
+	while (str[i])
+	{
+		if (str[i] == '*')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+t_lexim *expand_env(t_lexim *tmp_lexim)
+{
+	int		j;
+	t_lexim	*tmp_next;
+	char	**args;
+
+	args = NULL;
+	if (tmp_lexim->content[0] == '"')
+			tmp_lexim->content = expand_var(tmp_lexim->content);
+	else if (tmp_lexim->content[0] != '"'
+			&& !check_ambigious(expand_var(tmp_lexim->content))
+			&& !is_space(expand_var(tmp_lexim->content)))
+	{
+		args = ft_split(expand_var(tmp_lexim->content), ' ');
+		tmp_next = tmp_lexim->next;
+		tmp_lexim->content = args[0];
+		j = 0;
+		while (args[++j])
+		{
+			tmp_lexim->next = new_lexim(ft_strdup(" "));
+			tmp_lexim->next->token = SPACES;
+			tmp_lexim->next->next = new_lexim(args[j]);
+			if (tmp_lexim->next->next)
+				tmp_lexim = tmp_lexim->next->next;
+		}
+		tmp_lexim->next = tmp_next;
+	}
+	else
+	{
+		if (tmp_lexim->prev && tmp_lexim->prev->token == SPACES)
+			tmp_lexim->content = *ft_split(expand_var(tmp_lexim->content), ' ');
+		else
+			tmp_lexim->content = expand_var(tmp_lexim->content);
+	}
+	return (tmp_lexim);
+}
+
 t_cmd	*ft_expand(t_cmd *cmds, int nb_cmds)
 {
 	int		i;
@@ -115,15 +168,22 @@ t_cmd	*ft_expand(t_cmd *cmds, int nb_cmds)
 	t_lexim	*tmp_lexim;
 	t_redir	*tmp_redir;
 	t_lexim	*tmp_next;
+	t_lexim	*tmp_prev;
 	char	**args;
 	int		j;
 	char	*str;
+	char	*astrik;
+	t_lexim	*astriks;
 
+	astriks = NULL;
+	astrik = NULL;
 	i = 0;
 	envs = g_grl->env_head;
 	tmp = cmds;
 	while (i < nb_cmds)
 	{
+		tmp_prev = NULL;
+		tmp_next = NULL;
 		tmp_lexim = cmds[i].args;
 		tmp_redir = cmds[i].redirs;
 		while (tmp_lexim)
@@ -143,8 +203,6 @@ t_cmd	*ft_expand(t_cmd *cmds, int nb_cmds)
 					if (!*tmp_lexim->content)
 						tmp_lexim->content = "$";
 				}
-				//if (!tmp_lexim->content[1])
-				//	tmp_lexim->content = "\0";
 			}
 			else if (tmp_lexim->token == ENV)
 			{
@@ -152,7 +210,9 @@ t_cmd	*ft_expand(t_cmd *cmds, int nb_cmds)
 				{
 					tmp_lexim->content = expand_var(tmp_lexim->content);
 				}
-				else if (tmp_lexim->content[0] != '"' && !check_ambigious(expand_var(tmp_lexim->content)) && !is_space(expand_var(tmp_lexim->content)))
+				else if (tmp_lexim->content[0] != '"' 
+						&& !check_ambigious(expand_var(tmp_lexim->content)) 
+						&& !is_space(expand_var(tmp_lexim->content)))
 				{
 					args = ft_split(expand_var(tmp_lexim->content), ' ');
 					j = -1;
@@ -181,7 +241,39 @@ t_cmd	*ft_expand(t_cmd *cmds, int nb_cmds)
 						}
 				}
 			}
-			tmp_lexim = tmp_lexim->next;
+			else if (is_wild(tmp_lexim->content))
+			{
+				if (tmp_lexim->prev)
+					tmp_prev = tmp_lexim->prev;
+				tmp_next = tmp_lexim->next;
+				while (tmp_next && tmp_next->token == ENV)
+					tmp_next = tmp_next->next;
+				while (tmp_lexim && tmp_lexim->token != SPACES)
+				{
+					if (tmp_lexim->token == ENV)
+						tmp_lexim = expand_env(tmp_lexim);
+					astrik = ft_strjoin(astrik, tmp_lexim->content);
+					if (tmp_lexim)
+						tmp_lexim = tmp_lexim->next;
+				}
+				if (astrik)
+					astriks = find_matching(astrik);
+				if (astriks)
+				{
+					if (tmp_prev)
+						tmp_prev->next = astriks;
+					while (astriks && astriks->next)
+						astriks = astriks->next;
+					astriks->next = tmp_next;
+				}
+				else
+				{
+					if (tmp_prev)
+						tmp_lexim = tmp_prev->next;
+				}
+			}
+			if (tmp_lexim)
+				tmp_lexim = tmp_lexim->next;
 		}
 		while (tmp_redir)
 		{
@@ -214,8 +306,8 @@ t_cmd	*ft_expand(t_cmd *cmds, int nb_cmds)
 		}
 		i++;
 	}
-	i = 0;
-	/*while (cmds[i].args)
+	/*i = 0;
+	while (cmds[i].args)
 	{
 		while (cmds[i].args)
 		{
@@ -226,7 +318,8 @@ t_cmd	*ft_expand(t_cmd *cmds, int nb_cmds)
 		break;
 		i++;
 	}
-	i = 0;
+	exit(0);*/
+	/*i = 0;
 	while (cmds[i].redirs)
 	{
 		printf("--%s--\n",cmds[i].redirs->file);

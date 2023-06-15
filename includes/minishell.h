@@ -6,7 +6,7 @@
 /*   By: mbaanni <mbaanni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 20:27:54 by mbaanni           #+#    #+#             */
-/*   Updated: 2023/06/14 21:54:39 by mbaanni          ###   ########.fr       */
+/*   Updated: 2023/06/15 09:56:18 by mtaib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,10 @@ typedef struct s_cmd
 	t_redir				*redirs;
 	struct s_cmd		*next;
 }						t_cmd;
+
+/******WILD CARD************/
+t_lexim		*find_matching(char *pattern);
+/***************************/
 
 /******EXPANSION UTILS******/
 char					*find_in_env(char *str, int len);
