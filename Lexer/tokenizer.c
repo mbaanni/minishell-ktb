@@ -6,7 +6,7 @@
 /*   By: mbaanni <mbaanni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 19:35:50 by mtaib             #+#    #+#             */
-/*   Updated: 2023/06/15 12:49:32 by mbaanni          ###   ########.fr       */
+/*   Updated: 2023/06/15 16:26:47 by mbaanni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,9 +95,7 @@ void	tokenize_lexims(t_lexim *lexims)
 void	tokenize_elements(t_lexim *lexims)
 {
 	t_lexim	*tmp;
-	int		i;
 
-	i = 0;
 	tmp = lexims;
 	parse_env(lexims);
 	while (lexims)
