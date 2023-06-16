@@ -81,9 +81,7 @@ char	*expand_var(char *str)
 {
 	int		i;
 	char	*exp;
-	int		state;
 
-	state = 0;
 	exp = 0;
 	i = -1;
 	if (!str)

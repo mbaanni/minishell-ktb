@@ -22,14 +22,13 @@ OSRC += $(addprefix $(OBJ_DIR), $(PAR_SRC:.c=.o))
 
 INCLUDES= -I includes
 
-READ_LINE = -lreadline -L ${HOME}/homebrew/opt/readline/lib -I ${HOME}/homebrew/opt/readline/include
-
-
+#READ_LINE = -lreadline -L ${HOME}/homebrew/opt/readline/lib -I ${HOME}/homebrew/opt/readline/include
+ 
 all : $(NAME)
 
 $(NAME) : $(OSRC) src/signale_handel.c
 	@make -C libft > /dev/null
-	@$(CC) $(FLAG) $(READ_LINE) $(INCLUDES)  $^ libft/libft.a -o $(NAME)
+	@$(CC) $(FLAG)  $(INCLUDES) $^ libft/libft.a -o $(NAME) -lreadline
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c includes/minishell.h 
 	@mkdir -p $(OBJ_DIR)

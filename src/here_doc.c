@@ -69,7 +69,7 @@ char	*reading_heredoc(t_redir *redir)
 		if (isatty(0))
 			ft_fdprintf(1, ">");
 		buf = get_next_line(g_grl->_hx);
-		if (!buf)
+		if (!buf || !redir->file)
 			break ;
 		if (buf && buf[ft_strlen(buf) - 1] == '\n')
 			buf[ft_strlen(buf) - 1] = 0;

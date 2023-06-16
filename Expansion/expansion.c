@@ -105,14 +105,10 @@ void	expand_args(t_lexim *tmp_lexim, t_lexim *tmp_next)
 t_cmd	*ft_expand(t_cmd *cmds, int nb_cmds)
 {
 	int		i;
-	t_env	*envs;
-	t_cmd	*tmp;
 	t_lexim	*tmp_lexim;
 	t_redir	*tmp_redir;
 
 	i = 0;
-	envs = g_grl->env_head;
-	tmp = cmds;
 	while (i < nb_cmds)
 	{
 		tmp_lexim = cmds[i].args;

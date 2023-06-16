@@ -48,7 +48,7 @@ int	process_pattern(char *pattern, int *i, int j, char **filename)
 		if (!in_begining(pattern, i, &j, filename))
 			return (0);
 	}
-	else if (i > 0 && ft_strnstr(*filename, needle(&pattern[*i]),
+	else if (*i > 0 && ft_strnstr(*filename, needle(&pattern[*i]),
 			ft_strlen(*filename)) && (pattern[*i] != (*filename)[0]
 		|| ft_strchr(*filename, pattern[*i])))
 	{

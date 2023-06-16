@@ -44,7 +44,6 @@ void	assign_values(char **args, t_lexim **tmp_lexim)
 
 t_lexim	*get_value(t_lexim *tmp_lexim, t_lexim **tmp_next)
 {
-	int		j;
 	char	**args;
 
 	args = NULL;
@@ -55,7 +54,6 @@ t_lexim	*get_value(t_lexim *tmp_lexim, t_lexim **tmp_next)
 		&& !is_space(expand_var(tmp_lexim->content)))
 	{
 		args = ft_split(expand_var(tmp_lexim->content), ' ');
-		j = -1;
 		(*tmp_next) = tmp_lexim->next;
 		tmp_lexim->content = args[0];
 		assign_values(args, &tmp_lexim);
